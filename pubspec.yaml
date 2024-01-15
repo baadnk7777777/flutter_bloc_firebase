@@ -45,6 +45,7 @@ dependencies:
   top_snackbar_flutter: ^3.1.0
   cloud_firestore: ^4.14.0
   either_dart: ^1.0.0
+  firebase_auth: ^4.16.0
 
 dev_dependencies:
   flutter_test:
