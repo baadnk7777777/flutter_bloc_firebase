@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "617111991028",
+    "project_id": "flutter-chatapp-internship",
+    "storage_bucket": "flutter-chatapp-internship.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617111991028:android:b7aca90c0f7539a29264a1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_bloc_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApJq7ZoIWCuswnK_SNv0jDzAeoYYDNTb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:617111991028:android:a76b9817cd7803609264a1",
+        "android_client_info": {
+          "package_name": "com.example.flutter_bloc_firebase_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApJq7ZoIWCuswnK_SNv0jDzAeoYYDNTb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
