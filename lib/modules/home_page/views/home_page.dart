@@ -14,9 +14,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final ScrollController _scrollController = ScrollController();
-  List<Message> messagesList = <Message>[];
-  int userId = 1;
+  // final ScrollController _scrollController = ScrollController();
+  // List<Message> messagesList = <Message>[];
+  // int userId = 1;
   @override
   void initState() {
     super.initState();
@@ -53,11 +53,22 @@ class _HomePageState extends State<HomePage> {
           }
         },
         builder: (context, state) {
-          return ElevatedButton(
-              onPressed: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(SignOut());
-              },
-              child: const Text('logOut'));
+          return Column(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      '/chatPage',
+                    );
+                  },
+                  child: const Text('ChatPage')),
+              ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<AuthenticationBloc>(context).add(SignOut());
+                  },
+                  child: const Text('logOut')),
+            ],
+          );
         },
       ),
       // body: Column(

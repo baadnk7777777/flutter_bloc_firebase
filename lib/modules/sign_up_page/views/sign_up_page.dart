@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/bloc/message_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/authentication_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/sign_up_button.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/sign_up_field.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -26,106 +29,162 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Login to Your Account',
-          style: TextStyle(
-            color: Colors.deepPurple,
-          ),
-        ),
-        centerTitle: true,
+        backgroundColor: AppColors.ilacPalette4,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            const Text('Email address'),
-            const SizedBox(height: 10),
-            TextFormField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your email',
+      body: SingleChildScrollView(
+        child: Container(
+          color: AppColors.ilacPalette4,
+          padding: const EdgeInsets.only(top: 30),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(50),
+                topRight: Radius.circular(50),
               ),
             ),
-            const SizedBox(height: 10),
-            const Text('Password'),
-            TextFormField(
-              controller: passwordController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter your password',
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 50,
+                horizontal: 30,
               ),
-              obscureText: false,
-            ),
-            const SizedBox(height: 10),
-            GestureDetector(
-              onTap: () {},
-              child: const Text(
-                'Forgot password?',
-                style: TextStyle(
-                  color: Colors.deepPurple,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            BlocConsumer<AuthenticationBloc, AuthenticationState>(
-              listener: (context, state) {
-                if (state is AuthenticationSuccess) {
-                  Navigator.of(context).pushNamed('/homePage');
-
-                  context.read<MessageBloc>().add(FetchMesageEvent());
-                } else if (state is AuthenticationFailure) {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const AlertDialog(
-                          content: Text('error'),
-                        );
-                      });
-                }
-              },
-              builder: (context, state) {
-                return SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      BlocProvider.of<AuthenticationBloc>(context).add(
-                        SignUpUser(
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim(),
-                        ),
-                      );
-                    },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                    ),
                     child: Text(
-                      state is AuthenticationLoading ? '.......' : 'Signup',
-                      style: const TextStyle(
-                        fontSize: 20,
+                      "Sign Up",
+                      style: TextStyle(
+                        fontFamily: 'poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30,
                       ),
                     ),
                   ),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Already have an account? "),
-                GestureDetector(
-                  onTap: () {},
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colors.deepPurple,
-                    ),
+                  const SizedBox(
+                    height: 30,
                   ),
-                )
-              ],
+                  const SignUpField(
+                    fieldType: 'email',
+                    hintText: 'email',
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SignUpField(
+                    fieldType: 'password',
+                    hintText: 'password',
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          print('On Forgot Password');
+                        },
+                        child: Text(
+                          'Frogot password',
+                          style: TextStyle(
+                            color: AppColors.ilacPalette4,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'poppins',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.ilacPalette4),
+                        child: const Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'poppins',
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text.rich(
+                    TextSpan(
+                        text: 'Already have an Account ?',
+                        style: const TextStyle(
+                          color: Colors.black54,
+                          fontFamily: 'poppins',
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Sign In',
+                            style: TextStyle(
+                              color: AppColors.ilacPalette4,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'poppins',
+                            ),
+                          ),
+                        ]),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Divider(),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'OR',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Divider(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SignUpButton(
+                        buttonName: 'facebook',
+                      ),
+                      SignUpButton(
+                        buttonName: 'twitter',
+                      ),
+                      SignUpButton(
+                        buttonName: 'google',
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

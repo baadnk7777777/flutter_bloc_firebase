@@ -27,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // showPerformanceOverlay: true,
       debugShowCheckedModeBanner: false,
       title: 'InternShip App Chat',
       onGenerateRoute: _appRouter.onGenerateRoute,
