@@ -5,8 +5,14 @@ import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/bloc/message_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/form_bloc/bloc/form_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/age_field.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/display_name_field.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/email_field.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/error_dialog.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/password_field.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/sign_up_button.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/sign_up_field.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/submit_form.dart';
 import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -40,16 +46,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 showDialog(
                   context: context,
                   builder: (context) {
-                    return AlertDialog(
-                        // <-- SEE HERE
-                        title: const Text('Erorr'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text(state.errorMessage ?? 'Error'),
-                            ],
-                          ),
-                        ));
+                    return ErrorDialog(errorMessage: state.errorMessage);
                   },
                 );
               } else if (state.isFormValid && !state.isLoading) {
@@ -57,7 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 context.read<FormBloc>().add(const FormSucceeded());
               } else if (state.isFormValidateFailed) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('TextFixIssues')));
+                    const SnackBar(content: Text('isFormValidateFailed')));
               }
             },
           ),
@@ -111,25 +108,22 @@ class _SignUpPageState extends State<SignUpPage> {
                       const SizedBox(
                         height: 30,
                       ),
-                      SignUpField(
-                        controller: emailController,
-                        // onTextChanged: (newText) {
-                        //   onTextChanged(newText, 'email');
-                        // },
-                        fieldType: 'email',
-                        hintText: 'email',
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SignUpField(
-                        controller: passwordController,
-                        // onTextChanged: (newText) {
-                        //   onTextChanged(newText, 'password');
-                        // },
-                        fieldType: 'password',
-                        hintText: 'password',
-                      ),
+
+                      // THRERE: INPUTFIELD.
+                      const EmailField(),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
+                      const PasswordField(),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
+                      const DisPlayNameField(),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
+                      const AgeField(),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01),
+
+                      const Center(child: SubmitForm()),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [

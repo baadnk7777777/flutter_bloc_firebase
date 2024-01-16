@@ -25,7 +25,7 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
   }
 
   bool _isPasswordValid(String password) {
-    return _passwordRegExp.hasMatch(password);
+    return true;
   }
 
   bool _isNameValid(String? displayName) {
@@ -78,6 +78,7 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
             _isNameValid(state.displayName),
         isLoading: true,
       ));
+      print("isfromValid${state.isFormValid}");
       if (state.isFormValid) {
         try {
           // Sign up method
@@ -167,6 +168,7 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
       isFormValid: false,
       isFormValidateFailed: false,
       errorMessage: "",
+      displayName: event.displayName,
       isNameValid: _isNameValid(event.displayName),
     ));
   }
