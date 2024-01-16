@@ -6,13 +6,21 @@ import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
 class SignUpField extends StatelessWidget {
   final String fieldType;
   final String hintText;
+  final TextEditingController controller;
+  // final Function(String) onTextChanged;
 
   const SignUpField(
-      {super.key, required this.fieldType, required this.hintText});
+      {super.key,
+      required this.fieldType,
+      required this.hintText,
+      // required this.onTextChanged,
+      required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
+      // onChanged: onTextChanged,
       obscureText: fieldType == "email" ? false : true,
       obscuringCharacter: "*",
       style: const TextStyle(

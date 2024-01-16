@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/bloc/message_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/models/message.dart';
-import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/authentication_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -38,39 +37,58 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-        listener: (context, state) {
-          if (state is AuthenticationLoading) {
-            const LoadingPage();
-          } else if (state is AuthenticationFailure) {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return const AlertDialog(
-                    content: Text('error'),
-                  );
-                });
-          }
-        },
-        builder: (context, state) {
-          return Column(
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      '/chatPage',
-                    );
-                  },
-                  child: const Text('ChatPage')),
-              ElevatedButton(
-                  onPressed: () {
-                    BlocProvider.of<AuthenticationBloc>(context).add(SignOut());
-                  },
-                  child: const Text('logOut')),
-            ],
-          );
-        },
-      ),
+      body: Container(),
+      // body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+      //   listener: (context, state) {
+      //     if (state is AuthenticationLoading) {
+      //       const LoadingPage();
+      //     } else if (state is AuthenticationFailure) {
+      //       showDialog(
+      //           context: context,
+      //           builder: (context) {
+      //             return const AlertDialog(
+      //               content: Text('error'),
+      //             );
+      //           });
+      //     }
+      //   },
+      //   builder: (context, state) {
+      //     return ElevatedButton(
+      //         onPressed: () {
+      //           BlocProvider.of<AuthenticationBloc>(context).add(SignOut());
+      //         },
+      //         child: const Text('logOut'));
+      //     // if (state is AuthenticationSuccess) {
+      //     //   return Column(
+      //     //     children: [
+      //     //       Text(state.user.id.toString()),
+      //     //       ElevatedButton(
+      //     //           onPressed: () {
+      //     //             Navigator.of(context).pushNamed(
+      //     //               '/chatPage',
+      //     //             );
+      //     //           },
+      //     //           child: const Text('ChatPage')),
+      //     //       ElevatedButton(
+      //     //           onPressed: () {
+      //     //             BlocProvider.of<AuthenticationBloc>(context)
+      //     //                 .add(SignOut());
+      //     //             Navigator.of(context).pushReplacementNamed(
+      //     //               '/',
+      //     //             );
+      //     //           },
+      //     //           child: const Text('logOut')),
+      //     //     ],
+      //     //   );
+      //     // } else {
+      //     //   return Column(
+      //     //     children: [
+      //     //       Text(state.toString()),
+      //     //     ],
+      //     //   );
+      //     // }
+      //   },
+      // ),
       // body: Column(
       //   children: [
       //     FloatingActionButton(onPressed: () {
