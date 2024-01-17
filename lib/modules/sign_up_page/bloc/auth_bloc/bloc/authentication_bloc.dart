@@ -3,17 +3,21 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc_firebase_2/data/repositories/services/firebase_client.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/models/user.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/authentication_repo.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
+  final AuthenticationRepository _authenticationRepository;
+
   final FirebaseClient authService = FirebaseClient();
-  AuthenticationBloc() : super(AuthenticationInitial()) {
+  AuthenticationBloc(this._authenticationRepository)
+      : super(AuthenticationInitial()) {
     // on<AuthenticationEvent>((event, emit) {});
 
-    // on<AuthenticationEvent>(_onSignUpUser);
+    on<AuthenticationEvent>(_onSignUpUser);
     // on<SignOut>(_onSignOut);
   }
 
@@ -34,31 +38,23 @@ class AuthenticationBloc
   //   }
   // }
 
-  // Future<void> _onSignUpUser(
-  //   AuthenticationEvent event,
-  //   Emitter<AuthenticationState> emit,
-  // ) async {
-  //   if(event is AuthenticationStarted) {
-  //     UserModel user = await // repo
-  //     if(user.uid != "uid") {
-  //       String? displayName = emit(const AuthenticationSuccess())
-  //     }else {
-  //       emit(AuthenticationFailure());
-  //     }
-  //   } else if(event is AuthenticationSignedOut) {
-  //     await // firebaseRepo
-  //   }
-  // emit(AuthenticationLoading());
-  // try {
-  //   final UserModel? user =
-  //       await authService.signUpUser(event.email, event.password);
-  //   if (user != null) {
-  //     emit(AuthenticationSuccess(user: user));
-  //   } else {
-  //     emit(const AuthenticationFailure('Create user Failed'));
-  //   }
-  // } catch (e) {
-  //   print(e);
-  // }
-  // }
+  Future<void> _onSignUpUser(
+    AuthenticationEvent event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    if (event is AuthenticationStarted) {
+      UserModel user = await _authenticationRepository.getCurrentUser().first;
+      print(user);
+      if (user.uid != "uid") {
+        String? displayName =
+            await _authenticationRepository.retrieveUserName(user);
+        emit(AuthenticationSuccess(displayName: displayName));
+      } else {
+        emit(AuthenticationFailure());
+      }
+    } else if (event is AuthenticationSignedOut) {
+      await _authenticationRepository.signOut();
+      emit(AuthenticationFailure());
+    }
+  }
 }

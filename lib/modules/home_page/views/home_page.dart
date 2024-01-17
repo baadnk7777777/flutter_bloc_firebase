@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/bloc/message_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/models/message.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/database_bloc/bloc/database_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,7 +39,16 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Home'),
       ),
-      body: Container(),
+      body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        builder: (context, state) {
+          if (state is AuthenticationSuccess) {
+            return Container(
+              child: Text(state.displayName!),
+            );
+          }
+          return Container();
+        },
+      ),
       // body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
       //   listener: (context, state) {
       //     if (state is AuthenticationLoading) {

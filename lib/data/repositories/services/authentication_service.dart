@@ -7,7 +7,8 @@ class AuthenticationService {
   Stream<UserModel> retrieveCurrentUser() {
     return auth.authStateChanges().map((User? user) {
       if (user != null) {
-        return UserModel(uid: user.uid, email: user.email);
+        return UserModel(
+            uid: user.uid, email: user.email, displayName: user.displayName);
       } else {
         return UserModel(uid: "uid");
       }
@@ -19,7 +20,7 @@ class AuthenticationService {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: user.email!, password: user.password!);
-      verifyEmail();
+      // await verifyEmail();
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw FirebaseAuthException(code: e.code, message: e.message);

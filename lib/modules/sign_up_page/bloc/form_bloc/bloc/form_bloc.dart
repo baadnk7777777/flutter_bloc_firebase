@@ -66,7 +66,8 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
       email: state.email,
       password: state.password,
       age: state.age,
-      displayName: state.displayName,
+      // displayName: state.displayName,
+      displayName: 'Bankz',
     );
 
     if (event.value == Status.signUp) {
@@ -85,9 +86,10 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
           UserCredential? authUser =
               await _authenticationRepository.signUp(user);
           UserModel updatedUser = user.copyWith(
-              uid: authUser!.user!.uid,
-              isVerified: authUser.user!.emailVerified);
-          await _databaseRepository.saveUserData(user);
+            uid: authUser!.user!.uid,
+            isVerified: true,
+          );
+          await _databaseRepository.saveUserData(updatedUser);
           if (updatedUser.isVerified!) {
             emit(state.copyWith(
               isLoading: false,
@@ -121,12 +123,12 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
             _isPasswordValid(state.password) && _isEmailValid(state.email),
         isLoading: true,
       ));
+      print("DisPlayName + ${state.displayName}");
       if (state.isFormValid) {
         try {
           UserCredential? authUser =
               await _authenticationRepository.signIn(user);
-          UserModel updatedUser =
-              user.copyWith(isVerified: authUser!.user!.emailVerified);
+          UserModel updatedUser = user.copyWith(isVerified: true);
           if (updatedUser.isVerified!) {
             emit(state.copyWith(isLoading: false, errorMessage: ""));
           } else {

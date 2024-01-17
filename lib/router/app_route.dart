@@ -20,7 +20,9 @@ class AppRouter {
     firebaseClient: FirebaseClient(),
   ));
 
-  final AuthenticationBloc _authenticationBloc = AuthenticationBloc();
+  final AuthenticationBloc _authenticationBloc = AuthenticationBloc(
+    AuthenticationRepositoryImpl(),
+  );
   final DatabaseBloc _databaseBloc = DatabaseBloc(DatabaseRepositoryImpl());
   final FormBloc _formBloc = FormBloc(
     AuthenticationRepositoryImpl(),

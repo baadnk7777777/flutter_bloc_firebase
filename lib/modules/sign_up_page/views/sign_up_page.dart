@@ -208,7 +208,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           TextButton(
                               onPressed: () {
-                                print("sign in");
+                                context.read<FormBloc>().add(
+                                    const FormSubmitted(value: Status.signIn));
                               },
                               child: Text(
                                 'Sign In',
