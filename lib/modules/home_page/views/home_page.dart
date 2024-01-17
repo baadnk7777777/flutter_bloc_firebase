@@ -16,8 +16,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // final ScrollController _scrollController = ScrollController();
-  // List<Message> messagesList = <Message>[];
-  // int userId = 1;
+  List<Message> messagesList = <Message>[];
+  int userId = 1;
   @override
   void initState() {
     super.initState();
@@ -35,20 +35,132 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
-      body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-          if (state is AuthenticationSuccess) {
-            return Container(
-              child: Text(state.displayName!),
-            );
-          }
-          return Container();
-        },
-      ),
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+      listener: (context, state) {
+        if (state is AuthenticationFailure) {
+          Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+        }
+      },
+      buildWhen: (previous, current) {
+        if (current is AuthenticationFailure) {
+          return false;
+        }
+        return true;
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+          ),
+          body: Column(
+            children: [
+              FloatingActionButton(onPressed: () {
+                setState(() {
+                  userId = 2;
+                });
+              }),
+              Expanded(
+                child: BlocConsumer<MessageBloc, MessageState>(
+                  listener: (context, state) {
+                    if (state.status == StateStatus.loading &&
+                        messagesList.isNotEmpty) {}
+                    if (state.status == StateStatus.success &&
+                        messagesList.isEmpty) {}
+                    if (state.status == StateStatus.failure &&
+                        messagesList.isEmpty) {}
+                    return;
+                  },
+                  builder: (context, state) {
+                    if (state.status == StateStatus.initial ||
+                        (state.status == StateStatus.loading &&
+                            messagesList.isEmpty)) {
+                      return const LoadingPage();
+                    } else if (state.status == StateStatus.success) {
+                      messagesList = state.messagesList;
+                      messagesList
+                          .sort((a, b) => b.timestamp.compareTo(a.timestamp));
+                    } else if (state.status == StateStatus.failure &&
+                        messagesList.isEmpty) {}
+                    return ListView.builder(
+                      reverse: true,
+                      // controller: _scrollController,
+                      itemCount: messagesList.length,
+                      itemBuilder: (context, index) {
+                        return Align(
+                          alignment: messagesList[index].userId != userId
+                              ? Alignment.topRight
+                              : Alignment.topLeft,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 15),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: messagesList[index].userId != userId
+                                  ? Colors.blue
+                                  : Colors.grey,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              messagesList[index].text,
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+
+              // const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: mycontroller,
+                  decoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    labelText: 'Message',
+                    suffixIcon: Padding(
+                      padding: const EdgeInsetsDirectional.only(end: 12.0),
+                      child: GestureDetector(
+                        child: const Icon(
+                          Icons.send_rounded,
+                          color: Colors.black,
+                        ),
+                        onTap: () {
+                          print("userId$userId");
+                          context.read<MessageBloc>().add(
+                                SendMessageEvent(
+                                    message: mycontroller.text, userId),
+                              );
+
+                          mycontroller.clear();
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      // return Scaffold(
+      //   appBar: AppBar(
+      //     title: const Text('Home'),
+      //   ),
+      //   body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      //     builder: (context, state) {
+      //       if (state is AuthenticationSuccess) {
+      //         return Container(
+      //           child: Text(state.displayName!),
+      //         );
+      //       }
+      //       return Container();
+      //     },
+      //   ),
       // body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
       //   listener: (context, state) {
       //     if (state is AuthenticationLoading) {
