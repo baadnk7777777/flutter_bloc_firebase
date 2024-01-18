@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
+import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/bloc/message_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/models/message.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
@@ -17,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // final ScrollController _scrollController = ScrollController();
   List<Message> messagesList = <Message>[];
-  int userId = 1;
+  String uId = '';
   @override
   void initState() {
     super.initState();
@@ -54,11 +55,15 @@ class _HomePageState extends State<HomePage> {
           ),
           body: Column(
             children: [
-              FloatingActionButton(onPressed: () {
-                setState(() {
-                  userId = 2;
-                });
-              }),
+              BlocBuilder<LoginFormBloc, LoginFormState>(
+                builder: (context, state) {
+                  if (state.status == StateStatus.success) {
+                    uId = state.uid;
+                  }
+                  return Text(state.uid);
+                },
+              ),
+
               Expanded(
                 child: BlocConsumer<MessageBloc, MessageState>(
                   listener: (context, state) {
@@ -87,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                       itemCount: messagesList.length,
                       itemBuilder: (context, index) {
                         return Align(
-                          alignment: messagesList[index].userId != userId
+                          alignment: messagesList[index].uId == uId
                               ? Alignment.topRight
                               : Alignment.topLeft,
                           child: Container(
@@ -95,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                                 vertical: 10, horizontal: 15),
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: messagesList[index].userId != userId
+                              color: messagesList[index].uId == uId
                                   ? Colors.blue
                                   : Colors.grey,
                               borderRadius: BorderRadius.circular(10),
@@ -130,10 +135,12 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.black,
                         ),
                         onTap: () {
-                          print("userId$userId");
                           context.read<MessageBloc>().add(
                                 SendMessageEvent(
-                                    message: mycontroller.text, userId),
+                                  message: mycontroller.text,
+                                  uId: uId,
+                                  chatId: 1,
+                                ),
                               );
 
                           mycontroller.clear();

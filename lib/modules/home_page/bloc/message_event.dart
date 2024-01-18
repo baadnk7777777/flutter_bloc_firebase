@@ -12,6 +12,12 @@ class FetchMesageEvent extends MessageEvent {}
 
 class SendMessageEvent extends MessageEvent {
   final String message;
-  final int uerId;
-  const SendMessageEvent(this.uerId, {required this.message});
+  final String uId;
+  final int chatId;
+
+  const SendMessageEvent({
+    required this.message,
+    required this.uId,
+    required this.chatId,
+  });
 }

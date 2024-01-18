@@ -61,8 +61,9 @@ class _SignUpPageState extends State<SignUpPage> {
           BlocListener<AuthenticationBloc, AuthenticationState>(
             listener: (context, state) {
               if (state is AuthenticationSuccess) {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/homePage', (route) => false);
+                Navigator.of(context).pushNamed(
+                  '/login',
+                );
               }
             },
           )

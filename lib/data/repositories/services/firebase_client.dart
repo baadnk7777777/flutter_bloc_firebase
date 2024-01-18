@@ -9,6 +9,31 @@ class FirebaseClient {
   final CollectionReference _messageCollection =
       FirebaseFirestore.instance.collection('messages');
 
+  Future<void> sentMessage(String message, String uId, int chatId) async {
+    try {
+      await _messageCollection.add({
+        'uId': uId,
+        'chatId': chatId,
+        'text': message,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<List<Message>> getAllMessages() async {
+    try {
+      QuerySnapshot querySnapshot = await _messageCollection.get();
+      List<Message> messages = querySnapshot.docs
+          .map((e) => Message.fromDocumentSnapshot(e))
+          .toList();
+      return messages;
+    } catch (e) {
+      return [];
+    }
+  }
+
   // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   // Future<UserModel?> signUpUser(String email, String password) async {
@@ -38,28 +63,4 @@ class FirebaseClient {
   //     await FirebaseAuth.instance.signOut();
   //   }
   // }
-
-  Future<void> sentMessage(String message, int userId) async {
-    try {
-      await _messageCollection.add({
-        'userId': userId,
-        'text': message,
-        'timestamp': FieldValue.serverTimestamp(),
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<List<Message>> getAllMessages() async {
-    try {
-      QuerySnapshot querySnapshot = await _messageCollection.get();
-      List<Message> messages = querySnapshot.docs
-          .map((e) => Message.fromDocumentSnapshot(e))
-          .toList();
-      return messages;
-    } catch (e) {
-      return [];
-    }
-  }
 }
