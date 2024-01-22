@@ -5,11 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/data/repositories/services/firebase_client.dart';
 import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/Login_page/views/login_page.dart';
-import 'package:flutter_bloc_firebase_2/modules/authentication_page/views/authentication_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/bloc/message_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/impl/message_repo_impl.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/views/chat_page.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/bloc/message_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/repositories/impl/message_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/modules/get_start_page/views/get_start.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/views/home_page.dart';
+
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/database_bloc/bloc/database_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/form_bloc/bloc/form_bloc.dart';
@@ -34,22 +35,28 @@ class AppRouter {
 
   final LoginFormBloc _loginFormBloc = LoginFormBloc(
     AuthenticationRepositoryImpl(),
+    DatabaseRepositoryImpl(),
   );
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (_) => const WelcomePage(),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
+                value: _messageBloc,
+              ),
+              BlocProvider.value(
+                value: _authenticationBloc,
+              ),
+              BlocProvider.value(
+                value: _loginFormBloc,
+              ),
+            ],
+            child: const GetStart(),
+          ),
         );
-
-      // case '/chatPage':
-      //   return MaterialPageRoute(
-      //     builder: (_) => BlocProvider.value(
-      //       value: _messageBloc,
-      //       child: const ChatPage(),
-      //     ),
-      //   );
 
       case '/login':
         return MaterialPageRoute(
@@ -58,29 +65,11 @@ class AppRouter {
               BlocProvider.value(
                 value: _loginFormBloc,
               ),
+              BlocProvider.value(
+                value: _databaseBloc,
+              ),
             ],
             child: const LoginPage(),
-          ),
-        );
-
-      case '/auth':
-        return MaterialPageRoute(
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(
-                value: _authenticationBloc,
-              ),
-              BlocProvider.value(
-                value: _formBloc,
-              ),
-              BlocProvider.value(
-                value: _loginFormBloc,
-              ),
-              BlocProvider.value(
-                value: _messageBloc,
-              ),
-            ],
-            child: const AuthenticationPage(),
           ),
         );
 
@@ -89,6 +78,27 @@ class AppRouter {
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider.value(
+                value: _loginFormBloc,
+              ),
+              BlocProvider.value(
+                value: _databaseBloc,
+              ),
+              BlocProvider.value(
+                value: _authenticationBloc,
+              ),
+              BlocProvider.value(
+                value: _formBloc,
+              ),
+            ],
+            child: const HomePage(),
+          ),
+        );
+
+      case '/chatPage':
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
                 value: _messageBloc,
               ),
               BlocProvider.value(
@@ -98,7 +108,7 @@ class AppRouter {
                 value: _loginFormBloc,
               ),
             ],
-            child: const HomePage(),
+            child: const ChatPage(),
           ),
         );
 

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/models/message.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/models/user.dart';
 
 class FirebaseClient {

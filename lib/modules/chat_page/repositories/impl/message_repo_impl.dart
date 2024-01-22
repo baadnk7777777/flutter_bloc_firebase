@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc_firebase_2/data/repositories/services/firebase_client.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/models/message.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/repositories/message_repo.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/message_repo.dart';
 
 class MessageRepositoyImpl implements MessageRepository {
   final FirebaseClient _firebaseClient;

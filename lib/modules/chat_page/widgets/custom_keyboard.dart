@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/bloc/message_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/bloc/message_bloc.dart';
 
 class CustomKeyboard extends StatelessWidget {
   final String uId;

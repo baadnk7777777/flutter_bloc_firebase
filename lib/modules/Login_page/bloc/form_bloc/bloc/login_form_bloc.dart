@@ -7,14 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/models/user.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/authentication_repo.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/database_repo.dart';
 
 part 'login_form_event.dart';
 part 'login_form_state.dart';
 
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   final AuthenticationRepository _authenticationRepository;
+  final DatabaseRepository _databaseRepository;
 
-  LoginFormBloc(this._authenticationRepository)
+  LoginFormBloc(this._authenticationRepository, this._databaseRepository)
       : super(const LoginFormState()) {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
@@ -63,6 +65,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
 
       UserModel updateUser =
           user.copyWith(isVerified: authUser != null ? true : false);
+      await _databaseRepository.saveUserData(updateUser);
       if (updateUser.isVerified!) {
         emit(state.copyWith(
           uid: authUser!.user!.uid,

@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/bloc/message_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/form_bloc/bloc/form_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/age_field.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/password_fi
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/sign_up_button.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/sign_up_field.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/submit_form.dart';
-import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
