@@ -60,6 +60,10 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     Emitter<MessageState> emit,
   ) async {
     print("Sent message");
-    await messageRepositoyImpl.sendMessage(event.message, event.uerId);
+    await messageRepositoyImpl.sendMessage(
+      event.message,
+      event.uId,
+      event.chatId,
+    );
   }
 }
