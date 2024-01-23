@@ -35,6 +35,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       // showPerformanceOverlay: true,
+      theme: ThemeData(
+        primaryColor: Colors.transparent,
+        scaffoldBackgroundColor: Colors.transparent,
+      ),
       debugShowCheckedModeBanner: false,
       title: 'InternShip App Chat',
       onGenerateRoute: _appRouter.onGenerateRoute,

@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
       listener: (context, state) {
         if (state.status == StateStatus.success) {
           Navigator.pushNamedAndRemoveUntil(
-              context, '/homePage', (route) => false);
+              context, '/ladingPage', (route) => false);
         }
       },
       child: Scaffold(
@@ -26,9 +26,12 @@ class LoginPage extends StatelessWidget {
           backgroundColor: AppColors.ilacPalette4,
         ),
         body: SingleChildScrollView(
-          child: Container(
+          child: Expanded(
+              child: Container(
             color: AppColors.ilacPalette4,
+            width: double.infinity,
             padding: const EdgeInsets.only(top: 30),
+            height: MediaQuery.of(context).size.height,
             child: Container(
               width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
@@ -74,9 +77,65 @@ class LoginPage extends StatelessWidget {
                     ],
                   )),
             ),
-          ),
+          )),
         ),
       ),
+      // child: Scaffold(
+      //   appBar: AppBar(
+      //     backgroundColor: AppColors.ilacPalette4,
+      //   ),
+      //   body: SingleChildScrollView(
+      //     child: Container(
+      //       color: AppColors.ilacPalette4,
+      //       padding: const EdgeInsets.only(top: 30),
+      //       child: Container(
+      //         width: MediaQuery.of(context).size.width,
+      //         decoration: const BoxDecoration(
+      //           color: Colors.white,
+      //           borderRadius: BorderRadius.only(
+      //             topLeft: Radius.circular(50),
+      //             topRight: Radius.circular(50),
+      //           ),
+      //         ),
+      //         child: const Padding(
+      //             padding: EdgeInsets.symmetric(
+      //               vertical: 50,
+      //               horizontal: 30,
+      //             ),
+      //             child: Column(
+      //               crossAxisAlignment: CrossAxisAlignment.start,
+      //               children: <Widget>[
+      //                 Padding(
+      //                   padding: EdgeInsets.symmetric(
+      //                     horizontal: 10,
+      //                   ),
+      //                   child: Text(
+      //                     "Login",
+      //                     style: TextStyle(
+      //                       fontFamily: 'poppins',
+      //                       fontWeight: FontWeight.w600,
+      //                       fontSize: 30,
+      //                     ),
+      //                   ),
+      //                 ),
+      //                 SizedBox(
+      //                   height: 30,
+      //                 ),
+      //                 EmailField(),
+      //                 SizedBox(
+      //                   height: 30,
+      //                 ),
+      //                 PasswordField(),
+      //                 SizedBox(
+      //                   height: 30,
+      //                 ),
+      //                 Center(child: LoginForm()),
+      //               ],
+      //             )),
+      //       ),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

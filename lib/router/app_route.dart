@@ -10,6 +10,8 @@ import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/impl/mess
 import 'package:flutter_bloc_firebase_2/modules/chat_page/views/chat_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/get_start_page/views/get_start.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/views/home_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/landing_page/bloc/landing/bloc/landing_page_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/landing_page/views/landing_page.dart';
 
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/database_bloc/bloc/database_bloc.dart';
@@ -38,6 +40,8 @@ class AppRouter {
     DatabaseRepositoryImpl(),
   );
 
+  final LandingPageBloc _landingBloc = LandingPageBloc();
+
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
@@ -52,6 +56,9 @@ class AppRouter {
               ),
               BlocProvider.value(
                 value: _loginFormBloc,
+              ),
+              BlocProvider.value(
+                value: _landingBloc,
               ),
             ],
             child: const GetStart(),
@@ -89,27 +96,43 @@ class AppRouter {
               BlocProvider.value(
                 value: _formBloc,
               ),
+              BlocProvider.value(
+                value: _landingBloc,
+              ),
             ],
             child: const HomePage(),
           ),
         );
-
-      case '/chatPage':
+      case '/ladingPage':
         return MaterialPageRoute(
           builder: (_) => MultiBlocProvider(
             providers: [
               BlocProvider.value(
-                value: _messageBloc,
+                value: _loginFormBloc,
+              ),
+              BlocProvider.value(
+                value: _databaseBloc,
               ),
               BlocProvider.value(
                 value: _authenticationBloc,
               ),
               BlocProvider.value(
-                value: _loginFormBloc,
+                value: _formBloc,
+              ),
+              BlocProvider.value(
+                value: _landingBloc,
+              ),
+              BlocProvider.value(
+                value: _messageBloc,
               ),
             ],
-            child: const ChatPage(),
+            child: LandingPage(),
           ),
+        );
+
+      case '/chatPage':
+        return MaterialPageRoute(
+          builder: (_) => const ChatPage(),
         );
 
       default:
