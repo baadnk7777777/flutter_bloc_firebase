@@ -3,11 +3,15 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/models/services_request.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/models/user.dart';
 
 class FirebaseClient {
   final CollectionReference _messageCollection =
       FirebaseFirestore.instance.collection('messages');
+
+  final CollectionReference _servicsReqestCollection =
+      FirebaseFirestore.instance.collection('Services_request');
 
   Future<void> sentMessage(String message, String uId, int chatId) async {
     try {
@@ -29,6 +33,18 @@ class FirebaseClient {
           .map((e) => Message.fromDocumentSnapshot(e))
           .toList();
       return messages;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  Future<List<ServicesRequest>> getAllServicesRequest() async {
+    try {
+      QuerySnapshot querySnapshot = await _servicsReqestCollection.get();
+      List<ServicesRequest> request = querySnapshot.docs
+          .map((e) => ServicesRequest.fromDocumentSnapshot(e))
+          .toList();
+      return request;
     } catch (e) {
       return [];
     }

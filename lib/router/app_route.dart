@@ -12,6 +12,10 @@ import 'package:flutter_bloc_firebase_2/modules/get_start_page/views/get_start.d
 import 'package:flutter_bloc_firebase_2/modules/home_page/views/home_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/landing_page/bloc/landing/bloc/landing_page_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/landing_page/views/landing_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/bloc/services_request/bloc/services_request_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/models/services_request.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/repositories/impl/services_request_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/views/my_request_page.dart';
 
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/database_bloc/bloc/database_bloc.dart';
@@ -23,6 +27,11 @@ import 'package:flutter_bloc_firebase_2/modules/welcome_page/views/welcome_page.
 class AppRouter {
   final MessageBloc _messageBloc = MessageBloc(
       messageRepositoyImpl: MessageRepositoyImpl(
+    firebaseClient: FirebaseClient(),
+  ));
+
+  final ServicesRequestBloc _servicesRequestBloc = ServicesRequestBloc(
+      servicesRequestRepositoryImpl: ServicesRequestRepositoryImpl(
     firebaseClient: FirebaseClient(),
   ));
 
@@ -130,6 +139,13 @@ class AppRouter {
           ),
         );
 
+      case '/myRequests':
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: _servicesRequestBloc,
+            child: const MyRequestsPage(),
+          ),
+        );
       case '/chatPage':
         return MaterialPageRoute(
           builder: (_) => const ChatPage(),

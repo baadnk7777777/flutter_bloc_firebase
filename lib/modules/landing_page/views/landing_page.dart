@@ -61,6 +61,7 @@ class LandingPage extends StatelessWidget {
       bottomNavigationBar: BlocBuilder<LandingPageBloc, LandingPageState>(
         builder: (context, state) {
           return BottomNavigationBar(
+            fixedColor: Colors.grey,
             currentIndex: state.tabIndex,
             showUnselectedLabels: false,
             items: bottomNavItems,

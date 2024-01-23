@@ -20,8 +20,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(238, 237, 237, 1),
       appBar: AppBar(
-        // backgroundColor: const Color.fromRGBO(238, 237, 237, 0.6),
-        backgroundColor: Colors.amber,
+        backgroundColor: const Color.fromRGBO(238, 237, 237, 0.6),
+        // backgroundColor: Colors.amber,
         title: BlocBuilder<LoginFormBloc, LoginFormState>(
           builder: (context, state) {
             if (state.status == StateStatus.success) {
@@ -117,7 +117,9 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          // Add your button press logic here
+                          Navigator.of(context).pushNamed(
+                            '/myRequests',
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           shape: const CircleBorder(),
@@ -168,12 +170,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //     fixedColor: Colors.black38,
-      //     elevation: 0,
-      //     items: const <BottomNavigationBarItem>[
-
-      //     ]),
     );
   }
 }
