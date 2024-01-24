@@ -5,6 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/data/repositories/services/firebase_client.dart';
 import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/Login_page/views/login_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/add_request_page/bloc/add_request/bloc/add_request_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/add_request_page/repositories/impl/add_request_repo_impl/add_request_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/modules/add_request_page/views/add_request_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/bloc/message_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/impl/message_repo_impl.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/views/chat_page.dart';
@@ -50,6 +53,12 @@ class AppRouter {
   );
 
   final LandingPageBloc _landingBloc = LandingPageBloc();
+
+  final AddRequestBloc _addRequestBloc = AddRequestBloc(
+    addRequestRepositoyImpl: AddRequestRepositoyImpl(
+      firebaseClient: FirebaseClient(),
+    ),
+  );
 
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -149,6 +158,21 @@ class AppRouter {
       case '/chatPage':
         return MaterialPageRoute(
           builder: (_) => const ChatPage(),
+        );
+
+      case '/addRequest':
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider.value(
+                value: _addRequestBloc,
+              ),
+              BlocProvider.value(
+                value: _loginFormBloc,
+              ),
+            ],
+            child: const AddRequestPage(),
+          ),
         );
 
       default:

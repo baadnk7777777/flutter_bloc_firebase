@@ -43,6 +43,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(238, 237, 237, 1),
       body: Column(
         children: [
           BlocBuilder<LoginFormBloc, LoginFormState>(
@@ -53,6 +54,10 @@ class _ChatPageState extends State<ChatPage> {
               // return Text(state.uid);
               return const SizedBox.shrink();
             },
+          ),
+
+          const SizedBox(
+            height: 100,
           ),
 
           Expanded(
@@ -86,12 +91,12 @@ class _ChatPageState extends State<ChatPage> {
                       padding: const EdgeInsets.all(14.0),
                       child: Align(
                         alignment: messagesList[index].uId == uId
-                            ? Alignment.topRight
-                            : Alignment.topLeft,
+                            ? Alignment.topLeft
+                            : Alignment.topRight,
                         child: Row(
                           mainAxisAlignment: messagesList[index].uId == uId
-                              ? MainAxisAlignment.end
-                              : MainAxisAlignment.start,
+                              ? MainAxisAlignment.start
+                              : MainAxisAlignment.end,
                           children: [
                             Container(
                               constraints: BoxConstraints(

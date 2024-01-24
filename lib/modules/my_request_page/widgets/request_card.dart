@@ -50,7 +50,7 @@ class RequestCard extends StatelessWidget {
                       angle: -math.pi / 2,
                       child: Text(
                         DateFormat.yMMMd().format(
-                          servicesRequest.timestamp.toDate().toLocal(),
+                          servicesRequest.timestamp!.toDate().toLocal(),
                         ),
                         style: const TextStyle(
                           color: Colors.pinkAccent,
@@ -66,42 +66,65 @@ class RequestCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Request for',
-                        style: TextStyle(
-                          fontFamily: 'poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Request for',
+                          style: TextStyle(
+                            fontFamily: 'poppins',
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.star_rounded,
-                            color: Colors.orangeAccent,
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 5,
+                              reverse: true,
+                              itemBuilder: (context, index) {
+                                return servicesRequest.rating! <= index
+                                    ? const Icon(
+                                        Icons.star_rounded,
+                                        color: Colors.grey,
+                                      )
+                                    : const Icon(
+                                        Icons.star_rounded,
+                                        color: Colors.orangeAccent,
+                                      );
+                              },
+                            ),
                           ),
-                          Icon(
-                            Icons.star_rounded,
-                            color: Colors.orangeAccent,
-                          ),
-                          Icon(
-                            Icons.star_rounded,
-                            color: Colors.orangeAccent,
-                          ),
-                          Icon(
-                            Icons.star_rounded,
-                            color: Colors.grey,
-                          ),
-                          Icon(
-                            Icons.star_rounded,
-                            color: Colors.grey,
-                          ),
-                        ],
-                      )
-                    ],
+                        ),
+                        // const Row(
+                        //   children: [
+                        //     Icon(
+                        //       Icons.star_rounded,
+                        //       color: Colors.orangeAccent,
+                        //     ),
+                        //     Icon(
+                        //       Icons.star_rounded,
+                        //       color: Colors.orangeAccent,
+                        //     ),
+                        //     Icon(
+                        //       Icons.star_rounded,
+                        //       color: Colors.orangeAccent,
+                        //     ),
+                        //     Icon(
+                        //       Icons.star_rounded,
+                        //       color: Colors.grey,
+                        //     ),
+                        //     Icon(
+                        //       Icons.star_rounded,
+                        //       color: Colors.grey,
+                        //     ),
+                        //   ],
+                        // )
+                      ],
+                    ),
                   ),
                   Text(
                     servicesRequest.serviceType.toString(),
@@ -134,7 +157,7 @@ class RequestCard extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          servicesRequest.issue,
+                          servicesRequest.issue!,
                           softWrap: true,
                         ),
                       ),

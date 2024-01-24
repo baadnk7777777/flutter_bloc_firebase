@@ -13,6 +13,22 @@ class FirebaseClient {
   final CollectionReference _servicsReqestCollection =
       FirebaseFirestore.instance.collection('Services_request');
 
+  Future<void> addRequest(String issue, String uId, int rating,
+      String serviceType, String status) async {
+    try {
+      await _servicsReqestCollection.add({
+        'issue': issue,
+        'rating': rating,
+        'service_type': serviceType,
+        'status': status,
+        'timestamp': FieldValue.serverTimestamp(),
+        'uId': uId,
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> sentMessage(String message, String uId, int chatId) async {
     try {
       await _messageCollection.add({

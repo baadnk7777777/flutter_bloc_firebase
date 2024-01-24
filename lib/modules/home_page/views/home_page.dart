@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
 import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -42,7 +43,8 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.login_rounded),
             onPressed: () {
-              FirebaseAuth.instance.signOut();
+              context.read<LoginFormBloc>().add(const Logout());
+              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
             },
           ),
         ],
@@ -127,13 +129,20 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.all(16), // Button color
                         ),
                         child: const Icon(
-                          FontAwesomeIcons.pen, // Your desired icon
+                          Icons.note, // Your desired icon
                           size: 30,
                           color: Colors.white, // Icon color
                         ),
                       ),
                       const Center(
-                        child: Text("Repair"),
+                        child: Text(
+                          "My requests",
+                          style: TextStyle(
+                            fontFamily: 'poppins',
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -145,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pushNamed(
-                            '/chatPage',
+                            '/addRequest',
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -154,14 +163,21 @@ class _HomePageState extends State<HomePage> {
                           padding: const EdgeInsets.all(16), // Button color
                         ),
                         child: const Icon(
-                          FontAwesomeIcons.solidMessage, // Your desired icon
+                          Icons.note_add, // Your desired icon
                           size: 30,
                           color: Colors.white, // Icon color
                         ),
                       ),
                       const Center(
-                        child: Text("Chat"),
-                      )
+                        child: Text(
+                          "Add requests",
+                          style: TextStyle(
+                            fontFamily: 'poppins',
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],

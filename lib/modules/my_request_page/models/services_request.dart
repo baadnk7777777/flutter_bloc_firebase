@@ -2,18 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ServicesRequest {
   final String? id;
-  final Timestamp timestamp;
-  final String issue;
-  final String serviceType;
-  final String status;
-  final int rating;
+  final Timestamp? timestamp;
+  final String? issue;
+  final String? serviceType;
+  final String? status;
+  final int? rating;
 
   ServicesRequest({
     required this.issue,
     required this.serviceType,
     required this.status,
     required this.rating,
-    required this.timestamp,
+    this.timestamp,
     this.id,
   });
   factory ServicesRequest.fromDocumentSnapshot(QueryDocumentSnapshot snapshot) {

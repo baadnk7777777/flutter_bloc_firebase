@@ -30,3 +30,15 @@ class FormSubmitted extends LoginFormEvent {
   @override
   List<Object> get props => [];
 }
+
+class Logout extends LoginFormEvent {
+  const Logout();
+  @override
+  List<Object> get props => [];
+}
+
+class GetData extends LoginFormEvent {
+  const GetData();
+  @override
+  List<Object> get props => [];
+}

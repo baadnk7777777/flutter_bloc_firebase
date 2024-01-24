@@ -57,7 +57,7 @@ class _MyRequestPageState extends State<MyRequestsPage> {
           } else if (state.status == StateStatus.success) {
             servicesRequestList = state.servicesRequestList;
             servicesRequestList
-                .sort((a, b) => b.timestamp.compareTo(a.timestamp));
+                .sort((a, b) => b.timestamp!.compareTo(a.timestamp!));
           } else if (state.status == StateStatus.failure &&
               servicesRequestList.isEmpty) {}
           return ListView.builder(

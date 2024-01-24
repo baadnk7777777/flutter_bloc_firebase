@@ -8,6 +8,7 @@ import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/l
 import 'package:flutter_bloc_firebase_2/modules/Login_page/widgets/email_field.dart';
 import 'package:flutter_bloc_firebase_2/modules/Login_page/widgets/login_form.dart';
 import 'package:flutter_bloc_firebase_2/modules/Login_page/widgets/password_field.dart';
+import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -19,6 +20,13 @@ class LoginPage extends StatelessWidget {
         if (state.status == StateStatus.success) {
           Navigator.pushNamedAndRemoveUntil(
               context, '/ladingPage', (route) => false);
+        } else if (state.status == StateStatus.loading) {
+          const LoadingPage();
+        } else if (state.status == StateStatus.failure &&
+            (state.email.isNotEmpty && state.password.isNotEmpty)) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Have something wrong"),
+          ));
         }
       },
       child: Scaffold(

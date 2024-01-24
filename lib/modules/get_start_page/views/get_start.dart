@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
+import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/views/home_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/landing_page/views/landing_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
@@ -20,9 +22,13 @@ class GetStart extends StatelessWidget {
                 return const LoadingPage();
               });
             } else if (snapshot.hasData) {
+              // ยิง get data from preferences.
+              BlocProvider.of<LoginFormBloc>(context).add(const GetData());
               return LandingPage();
-            } else {
-              _body(context);
+            } else if (snapshot.hasError) {
+              Container(
+                child: const Text('Error'),
+              );
             }
             return _body(context);
           }),
