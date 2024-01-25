@@ -6,8 +6,8 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/models/message.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/repositories/impl/message_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/impl/message_repo_impl.dart';
 
 part 'message_event.dart';
 part 'message_state.dart';

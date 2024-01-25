@@ -49,6 +49,9 @@ dependencies:
   font_awesome_flutter: ^10.6.0
   package_info_plus: ^5.0.1
   flutter_secure_storage: ^9.0.0
+  flutter_carousel_widget: ^2.2.0
+  shared_preferences: ^2.2.2
+  dropdown_textfield: ^1.0.8
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +96,8 @@ flutter:
       fonts:
         - asset: fonts/Poppins-Regular.ttf
         - asset: fonts/Poppins-Bold.ttf
+        - asset: fonts/Poppins-Light.ttf
+          weight: 100
   # fonts:
   #   - family: Schyler
   #     fonts:
