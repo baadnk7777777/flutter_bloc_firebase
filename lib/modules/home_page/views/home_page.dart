@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/bloc/message_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/models/message.dart';
-import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/database_bloc/bloc/database_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/home_page/widgets/service_item.dart';
+import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,184 +13,195 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // final ScrollController _scrollController = ScrollController();
-  // List<Message> messagesList = <Message>[];
-  // int userId = 1;
-  @override
-  void initState() {
-    super.initState();
-    // context.read<MessageBloc>().add(FetchMesageEvent());
-    // BlocProvider.of<MessageBloc>(context).add(FetchMesageEvent());
-  }
-
-  @override
-  void dispose() {
-    // context.read<MessageBloc>().close();
-    super.dispose();
-  }
-
-  TextEditingController mycontroller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Home'),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.menu_outlined,
+              color: Colors.black,
+            )),
+        title: BlocBuilder<LoginFormBloc, LoginFormState>(
+          builder: (context, state) {
+            if (state.status == StateStatus.success) {
+              return Center(
+                child: Text(
+                  state.email,
+                  style: const TextStyle(
+                    fontFamily: 'poppins',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w100,
+                  ),
+                ),
+              );
+            } else {
+              return const Text('loading');
+            }
+          },
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.notifications_none_outlined),
+            onPressed: () {},
+          ),
+          // IconButton(
+          //   icon: const Icon(Icons.login_rounded),
+          //   onPressed: () {
+          //     context.read<LoginFormBloc>().add(const Logout());
+          //     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+          //   },
+          // ),
+        ],
       ),
-      body: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-          if (state is AuthenticationSuccess) {
-            return Container(
-              child: Text(state.displayName!),
-            );
-          }
-          return Container();
-        },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            TextField(
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(
+                    Icons.search_outlined,
+                  ),
+                  hintText: 'Search for a service',
+                  hintStyle: const TextStyle(
+                    fontFamily: 'poppins',
+                  ),
+                  border: OutlineInputBorder(
+                    borderSide:
+                        const BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  )),
+            ),
+            const SizedBox(height: 20),
+            FlutterCarousel(
+              items: [
+                'images/banner_1.png',
+                'images/banner_2.png',
+                'images/banner_3.png',
+              ].map((e) {
+                return Builder(
+                  builder: (context) {
+                    return Container(
+                      height: 100,
+                      width: MediaQuery.of(context).size.width,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                        image: DecorationImage(
+                          image: AssetImage(e),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+              options: CarouselOptions(
+                height: 150.0,
+                showIndicator: true,
+                slideIndicator: const CircularSlideIndicator(),
+                autoPlay: true,
+                autoPlayInterval: const Duration(seconds: 2),
+                autoPlayCurve: Curves.easeInOut,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Services by Category',
+                  style: TextStyle(
+                    fontFamily: 'poppins',
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'VIEW ALL',
+                  style: TextStyle(
+                    fontFamily: 'poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueAccent,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 100,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 5),
+                      child: Row(
+                        children: [
+                          ServiceItem(
+                            onPress: () {
+                              Navigator.of(context).pushNamed(
+                                '/addRequest',
+                              );
+                            },
+                            title: 'Add Request',
+                            icon: Icons.post_add_outlined,
+                          ),
+                          const SizedBox(width: 20),
+                          ServiceItem(
+                            onPress: () {
+                              Navigator.of(context).pushNamed(
+                                '/myRequests',
+                              );
+                            },
+                            title: 'My Requests',
+                            icon: Icons.note,
+                          ),
+                          const SizedBox(width: 20),
+                          ServiceItem(
+                            onPress: () {},
+                            title: 'Solar Service',
+                            icon: Icons.solar_power_outlined,
+                          ),
+                          const SizedBox(width: 20),
+                          ServiceItem(
+                            onPress: () {},
+                            title: 'Solar Service',
+                            icon: Icons.solar_power_outlined,
+                          ),
+                          const SizedBox(width: 20),
+                          ServiceItem(
+                            onPress: () {},
+                            title: 'Solar Service',
+                            icon: Icons.solar_power_outlined,
+                          ),
+                          const SizedBox(width: 20),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-      // body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-      //   listener: (context, state) {
-      //     if (state is AuthenticationLoading) {
-      //       const LoadingPage();
-      //     } else if (state is AuthenticationFailure) {
-      //       showDialog(
-      //           context: context,
-      //           builder: (context) {
-      //             return const AlertDialog(
-      //               content: Text('error'),
-      //             );
-      //           });
-      //     }
-      //   },
-      //   builder: (context, state) {
-      //     return ElevatedButton(
-      //         onPressed: () {
-      //           BlocProvider.of<AuthenticationBloc>(context).add(SignOut());
-      //         },
-      //         child: const Text('logOut'));
-      //     // if (state is AuthenticationSuccess) {
-      //     //   return Column(
-      //     //     children: [
-      //     //       Text(state.user.id.toString()),
-      //     //       ElevatedButton(
-      //     //           onPressed: () {
-      //     //             Navigator.of(context).pushNamed(
-      //     //               '/chatPage',
-      //     //             );
-      //     //           },
-      //     //           child: const Text('ChatPage')),
-      //     //       ElevatedButton(
-      //     //           onPressed: () {
-      //     //             BlocProvider.of<AuthenticationBloc>(context)
-      //     //                 .add(SignOut());
-      //     //             Navigator.of(context).pushReplacementNamed(
-      //     //               '/',
-      //     //             );
-      //     //           },
-      //     //           child: const Text('logOut')),
-      //     //     ],
-      //     //   );
-      //     // } else {
-      //     //   return Column(
-      //     //     children: [
-      //     //       Text(state.toString()),
-      //     //     ],
-      //     //   );
-      //     // }
-      //   },
-      // ),
-      // body: Column(
-      //   children: [
-      //     FloatingActionButton(onPressed: () {
-      //       setState(() {
-      //         userId = 2;
-      //       });
-      //     }),
-      //     Expanded(
-      //       child: BlocConsumer<MessageBloc, MessageState>(
-      //         listener: (context, state) {
-      //           if (state.status == StateStatus.loading &&
-      //               messagesList.isNotEmpty) {}
-      //           if (state.status == StateStatus.success &&
-      //               messagesList.isEmpty) {}
-      //           if (state.status == StateStatus.failure &&
-      //               messagesList.isEmpty) {}
-      //           return;
-      //         },
-      //         builder: (context, state) {
-      //           if (state.status == StateStatus.initial ||
-      //               (state.status == StateStatus.loading &&
-      //                   messagesList.isEmpty)) {
-      //             return const LoadingPage();
-      //           } else if (state.status == StateStatus.success) {
-      //             messagesList = state.messagesList;
-      //             messagesList
-      //                 .sort((a, b) => b.timestamp.compareTo(a.timestamp));
-      //           } else if (state.status == StateStatus.failure &&
-      //               messagesList.isEmpty) {}
-      //           return ListView.builder(
-      //             reverse: true,
-      //             // controller: _scrollController,
-      //             itemCount: messagesList.length,
-      //             itemBuilder: (context, index) {
-      //               return Align(
-      //                 alignment: messagesList[index].userId != userId
-      //                     ? Alignment.topRight
-      //                     : Alignment.topLeft,
-      //                 child: Container(
-      //                   margin: const EdgeInsets.symmetric(
-      //                       vertical: 10, horizontal: 15),
-      //                   padding: const EdgeInsets.all(10),
-      //                   decoration: BoxDecoration(
-      //                     color: messagesList[index].userId != userId
-      //                         ? Colors.blue
-      //                         : Colors.grey,
-      //                     borderRadius: BorderRadius.circular(10),
-      //                   ),
-      //                   child: Text(
-      //                     messagesList[index].text,
-      //                     style: const TextStyle(
-      //                       color: Colors.white,
-      //                     ),
-      //                   ),
-      //                 ),
-      //               );
-      //             },
-      //           );
-      //         },
-      //       ),
-      //     ),
-
-      //     // const Spacer(),
-      //     Padding(
-      //       padding: const EdgeInsets.all(8.0),
-      //       child: TextField(
-      //         controller: mycontroller,
-      //         decoration: InputDecoration(
-      //           border: const OutlineInputBorder(),
-      //           labelText: 'Message',
-      //           suffixIcon: Padding(
-      //             padding: const EdgeInsetsDirectional.only(end: 12.0),
-      //             child: GestureDetector(
-      //               child: const Icon(
-      //                 Icons.send_rounded,
-      //                 color: Colors.black,
-      //               ),
-      //               onTap: () {
-      //                 print("userId" + userId.toString());
-      //                 context.read<MessageBloc>().add(
-      //                       SendMessageEvent(
-      //                           message: mycontroller.text, userId),
-      //                     );
-
-      //                 mycontroller.clear();
-      //               },
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 }
