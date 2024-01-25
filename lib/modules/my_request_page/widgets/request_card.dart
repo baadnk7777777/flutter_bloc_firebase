@@ -22,8 +22,8 @@ class RequestCard extends StatelessWidget {
             BoxShadow(
               color: Colors.grey,
               offset: Offset(5.0, 5.0),
-              blurRadius: 2,
-              spreadRadius: 1,
+              blurRadius: 5,
+              spreadRadius: 0.1,
             ),
           ]),
       child: Row(

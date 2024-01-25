@@ -113,6 +113,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
         if (updateUser.isVerified!) {
           emit(state.copyWith(
             uid: authUser!.user!.uid,
+            email: authUser.user!.email,
             status: StateStatus.success,
           ));
 
