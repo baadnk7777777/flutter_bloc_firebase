@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,8 +13,10 @@ import 'package:flutter_bloc_firebase_2/app.dart';
 import 'package:flutter_bloc_firebase_2/common/config/app_configs.dart';
 import 'package:flutter_bloc_firebase_2/common/core/secure_storage/impl/secure_storage.dart';
 import 'package:flutter_bloc_firebase_2/common/core/user_session/impl/user_session.dart';
+import 'package:flutter_bloc_firebase_2/di/injector.dart';
 import 'package:flutter_bloc_firebase_2/firebase_options.dart';
 import 'package:flutter_bloc_firebase_2/modules/welcome_page/views/welcome_page.dart';
+import 'package:flutter_bloc_firebase_2/network/impl/firebase_network_impl.dart';
 import 'package:flutter_bloc_firebase_2/router/app_route.dart';
 import 'package:flutter_bloc_firebase_2/utils/app_bloc_observer.dart';
 
@@ -37,11 +40,19 @@ void run(Config config) async {
     // Use it in Injector for use any where you want.
     final secureStorage = SecureStorageImpl('internshipsolar');
     final userSession = UserSessionImpl(secureStorage);
+    final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    // Injector.instance.setup(
+    // firebaseClient: FirebaseNetworkImpl(firebaseFirestore),
+    // userSession: userSession,
+    // secureStorage: secureStorage,
+    //  );
 
     //ดังนั้น, โค้ดนี้ถูกใช้เพื่อลงทะเบียน listener
     //ที่จะทำงานเมื่อมีข้อผิดพลาดเกิดขึ้นใน Isolate
     //และจะนำข้อมูลข้อผิดพลาดนั้นไปให้ฟังก์ชัน handleError \
     //ทำการจัดการ.
+
+    setup();
 
     Isolate.current.addErrorListener(RawReceivePort((pair) async {
       final List<dynamic> errorAndStacktrace = pair;
