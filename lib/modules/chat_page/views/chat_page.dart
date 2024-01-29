@@ -1,18 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
-import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
-import 'package:flutter_bloc_firebase_2/common/style/app_style.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/chat_page/bloc/message_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
-import 'package:flutter_bloc_firebase_2/modules/chat_page/widgets/custom_keyboard.dart';
-
-import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/chat_page_import.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});

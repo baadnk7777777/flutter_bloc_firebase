@@ -40,4 +40,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<String?> retrieveUserName(UserModel user) {
     return dbService.retrieveUserName(user);
   }
+
+  @override
+  Future<String?> retrieveUserToken() {
+    return service.retrieveCurrentUserToken();
+  }
 }

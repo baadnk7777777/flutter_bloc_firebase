@@ -15,6 +15,20 @@ class AuthenticationService {
     });
   }
 
+  Future<String?> retrieveCurrentUserToken() async {
+    try {
+      final user = auth.currentUser;
+      if (user != null) {
+        final userCredential = await user.getIdToken();
+        return userCredential;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<UserCredential?> signUp(UserModel user) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance

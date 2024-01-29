@@ -1,30 +1,28 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/home_page/views/home_page.dart';
-import 'package:flutter_bloc_firebase_2/modules/landing_page/views/landing_page.dart';
-import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/get_start_page/get_start_import.dart';
 
 class GetStart extends StatelessWidget {
+  static const String route = 'getStart';
   const GetStart({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(
+    //   body: _body(context),
+    // );
     return Scaffold(
       body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               Future.delayed(const Duration(seconds: 10), () {
-                return const LoadingPage();
+                return const LoadingWidget();
               });
             } else if (snapshot.hasData) {
               // ยิง get data from preferences.
               BlocProvider.of<LoginFormBloc>(context).add(const GetData());
-              return LandingPage();
+              // Navigator.pushReplacementNamed(context, LandingPage.route);
+              // return LandingPage();
             } else if (snapshot.hasError) {
               Container(
                 child: const Text('Error'),
@@ -81,7 +79,9 @@ class GetStart extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed('/login');
+                      Navigator.pushNamed(context, LoginPage.route);
+                      AppLogger.log(
+                          'Navigator to LoginPagePage', 'Navigator', '🎉');
                     },
                     child: Container(
                       height: 55,
@@ -126,7 +126,7 @@ class GetStart extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            'SIGN IN',
+                            'SIGN UP',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,

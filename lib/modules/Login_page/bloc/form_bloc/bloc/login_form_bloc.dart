@@ -5,9 +5,12 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
+import 'package:flutter_bloc_firebase_2/common/core/user_session/user_session.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/models/user.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/authentication_repo.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/database_repo.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/impl/authentication_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/utils/custom_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_form_event.dart';
@@ -16,9 +19,16 @@ part 'login_form_state.dart';
 class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
   final AuthenticationRepository _authenticationRepository;
   final DatabaseRepository _databaseRepository;
+  final UserSession _userSession;
 
-  LoginFormBloc(this._authenticationRepository, this._databaseRepository)
-      : super(const LoginFormState()) {
+  LoginFormBloc({
+    required UserSession userSession,
+    required AuthenticationRepository authenticationRepository,
+    required DatabaseRepository databaseRepository,
+  })  : _authenticationRepository = authenticationRepository,
+        _databaseRepository = databaseRepository,
+        _userSession = userSession,
+        super(const LoginFormState()) {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
     on<FormSubmitted>(_onFormSubmitted);
@@ -88,6 +98,10 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     ));
   }
 
+  _saveToken(String accessToken, String refreshToken) async {
+    await _userSession.saveSession(accessToken, refreshToken);
+  }
+
   Future<void> _onFormSubmitted(
       FormSubmitted event, Emitter<LoginFormState> emit) async {
     UserModel user = UserModel(
@@ -106,7 +120,13 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     if (state.isFormValid) {
       try {
         UserCredential? authUser = await _authenticationRepository.signIn(user);
-        print("authUser$authUser");
+        final token = await _authenticationRepository.retrieveUserToken();
+
+        _saveToken(
+          token!,
+          token,
+        );
+
         UserModel updateUser =
             user.copyWith(isVerified: authUser != null ? true : false);
         await _databaseRepository.saveUserData(updateUser);
@@ -126,7 +146,8 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
             status: StateStatus.failure,
           ));
         }
-      } catch (e) {
+      } catch (e, stacktrace) {
+        AppLogger.logE('Failed to login + $e', 'LoginBloc', '$stacktrace');
         emit(state.copyWith(
           status: StateStatus.failure,
           isFormValid: false,

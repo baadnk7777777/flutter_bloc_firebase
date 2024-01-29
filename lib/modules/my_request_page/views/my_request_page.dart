@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
-import 'package:flutter_bloc_firebase_2/modules/my_request_page/bloc/services_request/bloc/services_request_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/my_request_page/models/services_request.dart';
-import 'package:flutter_bloc_firebase_2/modules/my_request_page/widgets/request_card.dart';
-import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/my_request_page_import.dart';
 
 class MyRequestsPage extends StatefulWidget {
   const MyRequestsPage({super.key});

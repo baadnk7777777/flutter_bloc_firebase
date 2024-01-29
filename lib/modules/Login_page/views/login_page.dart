@@ -1,16 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
-import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/widgets/email_field.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/widgets/login_form.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/widgets/password_field.dart';
-import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/Login_page/login_page_import.dart';
 
 class LoginPage extends StatelessWidget {
+  static const String route = 'login';
   const LoginPage({super.key});
 
   @override
@@ -19,9 +11,12 @@ class LoginPage extends StatelessWidget {
       listener: (context, state) {
         if (state.status == StateStatus.success) {
           Navigator.pushNamedAndRemoveUntil(
-              context, '/ladingPage', (route) => false);
+            context,
+            LandingPage.route,
+            (route) => false,
+          );
         } else if (state.status == StateStatus.loading) {
-          const LoadingPage();
+          const LoadingWidget();
         } else if (state.status == StateStatus.failure &&
             (state.email.isNotEmpty && state.password.isNotEmpty)) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -81,7 +76,9 @@ class LoginPage extends StatelessWidget {
                       SizedBox(
                         height: 30,
                       ),
-                      Center(child: LoginForm()),
+                      Center(
+                        child: LoginForm(),
+                      ),
                     ],
                   )),
             ),
