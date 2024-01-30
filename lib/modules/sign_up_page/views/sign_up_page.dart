@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
+import 'package:flutter_bloc_firebase_2/modules/get_start_page/get_start_import.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/form_bloc/bloc/form_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/age_field.dart';
@@ -14,6 +15,7 @@ import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/sign_up_fie
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/widgets/submit_form.dart';
 
 class SignUpPage extends StatefulWidget {
+  static const String route = 'signUp';
   const SignUpPage({super.key});
 
   @override
@@ -60,7 +62,7 @@ class _SignUpPageState extends State<SignUpPage> {
             listener: (context, state) {
               if (state is AuthenticationSuccess) {
                 Navigator.of(context).pushNamed(
-                  '/login',
+                  LoginPage.route,
                 );
               }
             },
@@ -141,57 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ],
                       ),
-                      // BlocConsumer<AuthenticationBloc, AuthenticationState>(
-                      //   listener: (context, state) {
-                      //     if (state is AuthenticationSuccess) {
-                      //       // Navigator.of(context).pushReplacementNamed('/homePage');
-                      //       Navigator.pushNamedAndRemoveUntil(
-                      //           context, '/homePage', (route) => false);
-                      //     } else if (state is AuthenticationFailure) {
-                      //       showDialog(
-                      //           context: context,
-                      //           builder: (context) {
-                      //             return const AlertDialog(
-                      //               content: Text('error'),
-                      //             );
-                      //           });
-                      //     }
-                      //   },
-                      //   builder: (context, state) {
-                      //     return Row(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: [
-                      //         state is AuthenticationLoading
-                      //             ? const LoadingPage()
-                      //             : ElevatedButton(
-                      //                 onPressed: () {
-                      //                   BlocProvider.of<AuthenticationBloc>(context)
-                      //                       .add(
-                      //                     SignUpUser(
-                      //                       email: emailController.text.trim(),
-                      //                       password:
-                      //                           passwordController.text.trim(),
-                      //                     ),
-                      //                   );
-                      //                   emailController.clear();
-                      //                   passwordController.clear();
-                      //                 },
-                      //                 style: ElevatedButton.styleFrom(
-                      //                     backgroundColor: AppColors.ilacPalette4),
-                      //                 child: const Text(
-                      //                   'Sign Up',
-                      //                   style: TextStyle(
-                      //                     color: Colors.white,
-                      //                     fontWeight: FontWeight.normal,
-                      //                     fontFamily: 'poppins',
-                      //                     fontSize: 20,
-                      //                   ),
-                      //                 ),
-                      //               ),
-                      //       ],
-                      //     );
-                      //   },
-                      // ),
+
                       const SizedBox(
                         height: 20,
                       ),
@@ -207,8 +159,8 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           TextButton(
                               onPressed: () {
-                                context.read<FormBloc>().add(
-                                    const FormSubmitted(value: Status.signIn));
+                                // context.read<FormBloc>().add(
+                                //     const FormSubmitted(value: Status.signIn));
                               },
                               child: Text(
                                 'Sign In',

@@ -47,7 +47,10 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
           .where((newMessage) => !state.messagesList
               .any((existingMessage) => newMessage.id == existingMessage.id))
           .toList();
-      print(newMessages.length);
+      // print(newMessages.length);
+      // List<Message> messageSort = List.from(state.messagesList)
+      //   ..addAll(newMessages);
+      // messageSort.sort((a, b) => b.timestamp.compareTo(a.timestamp));
       emit(state.copyWith(
         status: StateStatus.success,
         messagesList: List.from(state.messagesList)..addAll(newMessages),
@@ -59,7 +62,6 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     SendMessageEvent event,
     Emitter<MessageState> emit,
   ) async {
-    print("Sent message");
     await messageRepositoyImpl.sendMessage(
       event.message,
       event.uId,

@@ -3,6 +3,16 @@ import 'package:flutter_bloc_firebase_2/common/core/secure_storage/impl/secure_s
 import 'package:flutter_bloc_firebase_2/common/core/secure_storage/secure_storage.dart';
 import 'package:flutter_bloc_firebase_2/common/core/user_session/impl/user_session.dart';
 import 'package:flutter_bloc_firebase_2/common/core/user_session/user_session.dart';
+import 'package:flutter_bloc_firebase_2/modules/add_request_page/repositories/add_request_repo.dart';
+import 'package:flutter_bloc_firebase_2/modules/add_request_page/repositories/impl/add_request_repo_impl/add_request_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/impl/message_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/message_repo.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/repositories/impl/services_request_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/repositories/services_request_repo.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/authentication_repo.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/database_repo.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/impl/authentication_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/impl/database_repo_impl.dart';
 import 'package:flutter_bloc_firebase_2/network/firebase_network.dart';
 import 'package:flutter_bloc_firebase_2/network/impl/firebase_network_impl.dart';
 import 'package:flutter_bloc_firebase_2/utils/custom_logger.dart';
@@ -16,35 +26,19 @@ void setup() {
       .registerSingleton<SecureStorage>(SecureStorageImpl('internshipsolar'));
   SecureStorage secureStorage = locator<SecureStorage>();
   locator.registerSingleton<UserSession>(UserSessionImpl(secureStorage));
+  // Repository.
+  locator.registerSingleton<DatabaseRepository>(DatabaseRepositoryImpl());
+  locator.registerSingleton<MessageRepository>(
+      MessageRepositoyImpl(firebaseNetwork: locator<FirebaseNetwork>()));
+  locator.registerSingleton<AuthenticationRepository>(
+      AuthenticationRepositoryImpl());
+  locator.registerSingleton<AddRequestRepository>(
+      AddRequestRepositoyImpl(firebaseClient: locator<FirebaseNetwork>()));
+  locator.registerSingleton<ServicesRequestRepository>(
+      ServicesRequestRepositoryImpl(
+          firebaseClient: locator<FirebaseNetwork>()));
 
   locator.allReady().then((_) {
     AppLogger.log('All Injector is already setup.', 'INJECTOR', '💉');
   });
 }
-
-// class Injector {
-//   late UserSession _userSession;
-//   late SecureStorage _secureStorage;
-//   late FirebaseNetwork _firebaseNetwork;
-
-//   static final Injector _singleton = Injector._singleton;
-//   static Injector get instance => _singleton;
-
-//   Injector._internal();
-
-//   // void setup({
-//   //   required FirebaseNetwork firebaseClient,
-//   //   required UserSession userSession,
-//   //   required SecureStorage secureStorage,
-//   // }) {
-//   //   _firebaseNetwork = firebaseClient;
-//   //   _userSession = userSession;
-//   //   _secureStorage = secureStorage;
-//   // }
-
-//   void setup() {}
-
-//   UserSession get userSession => _userSession;
-//   SecureStorage get secureStorage => _secureStorage;
-//   FirebaseNetwork get firebaseNetwork => _firebaseNetwork;
-// }

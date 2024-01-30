@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_firebase_2/modules/home_page/home_page_import.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/views/my_request_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,23 +22,14 @@ class _HomePageState extends State<HomePage> {
               Icons.menu_outlined,
               color: Colors.black,
             )),
-        title: BlocBuilder<LoginFormBloc, LoginFormState>(
-          builder: (context, state) {
-            if (state.status == StateStatus.success) {
-              return Center(
-                child: Text(
-                  state.email,
-                  style: const TextStyle(
-                    fontFamily: 'poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w100,
-                  ),
-                ),
-              );
-            } else {
-              return const Text('loading');
-            }
-          },
+        title: Text(
+          locator<UserSession>().uid,
+          style: const TextStyle(
+            fontFamily: 'poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.w100,
+            color: Colors.black,
+          ),
         ),
         actions: <Widget>[
           IconButton(
@@ -165,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                           ServiceItem(
                             onPress: () {
                               Navigator.of(context).pushNamed(
-                                '/myRequests',
+                                MyRequestsPage.route,
                               );
                             },
                             title: 'My Requests',

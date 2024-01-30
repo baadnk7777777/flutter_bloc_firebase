@@ -98,8 +98,10 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
     ));
   }
 
-  _saveToken(String accessToken, String refreshToken) async {
-    await _userSession.saveSession(accessToken, refreshToken);
+  _saveToken(String accessToken, String refreshToken, String displayName,
+      String email, String uid) async {
+    await _userSession.saveSession(
+        accessToken, refreshToken, displayName, email, uid);
   }
 
   Future<void> _onFormSubmitted(
@@ -121,15 +123,22 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
       try {
         UserCredential? authUser = await _authenticationRepository.signIn(user);
         final token = await _authenticationRepository.retrieveUserToken();
-
+        List<UserModel> userLists =
+            await _databaseRepository.retrieveUserData();
+        UserModel myUser = userLists.firstWhere(
+          (user) => user.email == authUser!.user!.email,
+        );
+        AppLogger.logD('${myUser.uid}', 'On Login');
         _saveToken(
           token!,
           token,
+          myUser.displayName!,
+          myUser.email!,
+          myUser.uid!,
         );
 
         UserModel updateUser =
             user.copyWith(isVerified: authUser != null ? true : false);
-        await _databaseRepository.saveUserData(updateUser);
         if (updateUser.isVerified!) {
           emit(state.copyWith(
             uid: authUser!.user!.uid,
@@ -139,7 +148,6 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
 
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('uId', authUser.user!.uid);
-          print('User: ${updateUser.email}');
           prefs.setString('email', updateUser.email ?? 'Unkown');
         } else {
           emit(state.copyWith(

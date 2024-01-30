@@ -1,5 +1,12 @@
+import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc_firebase_2/modules/add_request_page/add_request_import.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
+import 'package:flutter_bloc_firebase_2/common/core/user_session/user_session.dart';
+import 'package:flutter_bloc_firebase_2/di/injector.dart';
+import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/add_request_page/bloc/add_request/bloc/add_request_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/splash_page/success_page.dart';
 
 class AddRequestPage extends StatelessWidget {
   static const String route = 'addRequest';
@@ -113,14 +120,14 @@ class AddRequestPage extends StatelessWidget {
                         height: 10,
                       ),
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           FocusScopeNode currentFocus = FocusScope.of(context);
                           if (!currentFocus.hasPrimaryFocus) {
                             currentFocus.unfocus();
                           }
+
                           context.read<AddRequestBloc>().add(
-                                RequestSubmitted(
-                                    context.read<LoginFormBloc>().state.uid),
+                                RequestSubmitted(locator<UserSession>().uid),
                               );
 
                           issueController.clear();

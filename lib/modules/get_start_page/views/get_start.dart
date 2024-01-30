@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_firebase_2/modules/get_start_page/get_start_import.dart';
+import 'package:flutter_bloc_firebase_2/modules/sign_up_page/views/sign_up_page.dart';
 
 class GetStart extends StatelessWidget {
   static const String route = 'getStart';
@@ -111,6 +112,11 @@ class GetStart extends StatelessWidget {
                     ),
                   ),
                   InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, SignUpPage.route);
+                      AppLogger.log(
+                          'Navigator to SignUpPage', 'Navigator', '🎉');
+                    },
                     child: Container(
                       height: 55,
                       decoration: BoxDecoration(

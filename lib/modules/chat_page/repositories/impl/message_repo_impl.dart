@@ -23,7 +23,7 @@ class MessageRepositoyImpl implements MessageRepository {
   @override
   Future<void> sendMessage(String message, String uId, int chatId) async {
     try {
-      // await _firebaseClient.sentMessage(message, uId, chatId);
+      await _firebaseClient.sentMessage(message, uId, chatId);
     } catch (e) {
       print(e);
     }
