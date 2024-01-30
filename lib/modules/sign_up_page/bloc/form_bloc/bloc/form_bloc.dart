@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc_firebase_2/modules/get_start_page/get_start_import.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/models/user.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/authentication_repo.dart';
 import 'package:flutter_bloc_firebase_2/modules/sign_up_page/repository/database_repo.dart';
@@ -80,9 +81,10 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
         isLoading: true,
       ));
       print("isfromValid${state.isFormValid}");
+      AppLogger.logD('BLOC EVENT SIGN UP', '_onFormSubmitted');
       if (state.isFormValid) {
         try {
-          // Sign up method
+          // // Sign up method
           UserCredential? authUser =
               await _authenticationRepository.signUp(user);
           UserModel updatedUser = user.copyWith(

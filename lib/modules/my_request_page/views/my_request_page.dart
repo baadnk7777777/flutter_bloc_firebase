@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
-import 'package:flutter_bloc_firebase_2/modules/my_request_page/bloc/services_request/bloc/services_request_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/my_request_page/models/services_request.dart';
-import 'package:flutter_bloc_firebase_2/modules/my_request_page/widgets/request_card.dart';
-import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/get_start_page/get_start_import.dart';
+import 'package:flutter_bloc_firebase_2/modules/my_request_page/my_request_page_import.dart';
 
 class MyRequestsPage extends StatefulWidget {
+  static const String route = 'myRequest';
   const MyRequestsPage({super.key});
 
   @override
@@ -53,7 +50,7 @@ class _MyRequestPageState extends State<MyRequestsPage> {
           if (state.status == StateStatus.initial ||
               (state.status == StateStatus.loading &&
                   servicesRequestList.isEmpty)) {
-            return const LoadingPage();
+            return const Center(child: LoadingWidget());
           } else if (state.status == StateStatus.success) {
             servicesRequestList = state.servicesRequestList;
             servicesRequestList

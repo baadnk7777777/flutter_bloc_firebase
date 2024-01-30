@@ -1,20 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
-import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
-import 'package:flutter_bloc_firebase_2/common/style/app_style.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/chat_page/bloc/message_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
-import 'package:flutter_bloc_firebase_2/modules/chat_page/widgets/custom_keyboard.dart';
-
-import 'package:flutter_bloc_firebase_2/modules/sign_up_page/bloc/auth_bloc/bloc/authentication_bloc.dart';
-import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc_firebase_2/common/core/user_session/user_session.dart';
+import 'package:flutter_bloc_firebase_2/di/injector.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/chat_page_import.dart';
+import 'package:flutter_bloc_firebase_2/modules/get_start_page/get_start_import.dart';
 
 class ChatPage extends StatefulWidget {
+  static const String route = 'chat_page';
   const ChatPage({super.key});
 
   @override
@@ -28,8 +21,23 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+    final userSession = locator<UserSession>();
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await _bootstrip();
+    });
+
     // context.read<MessageBloc>().add(FetchMesageEvent());
     // BlocProvider.of<MessageBloc>(context).add(FetchMesageEvent());
+  }
+
+  Future<void> _bootstrip() async {
+    Future.delayed(const Duration(seconds: 1));
+    final userSession = locator<UserSession>();
+    await userSession.loadSession();
+    locator<UserSession>().loadSession();
+    setState(() {
+      uId = locator<UserSession>().uid;
+    });
   }
 
   @override
@@ -44,12 +52,21 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(238, 237, 237, 1),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text(
+          locator<UserSession>().uid == ''
+              ? 'null'
+              : locator<UserSession>().uid,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
       body: Column(
         children: [
           BlocBuilder<LoginFormBloc, LoginFormState>(
             builder: (context, state) {
               if (state.status == StateStatus.success) {
-                uId = state.uid;
+                // uId = locator<UserSession>().uid;
               }
               // return Text(state.uid);
               return const SizedBox.shrink();
@@ -75,7 +92,7 @@ class _ChatPageState extends State<ChatPage> {
                 if (state.status == StateStatus.initial ||
                     (state.status == StateStatus.loading &&
                         messagesList.isEmpty)) {
-                  return const LoadingPage();
+                  return const Center(child: LoadingWidget());
                 } else if (state.status == StateStatus.success) {
                   messagesList = state.messagesList;
                   messagesList
@@ -90,11 +107,11 @@ class _ChatPageState extends State<ChatPage> {
                     return Padding(
                       padding: const EdgeInsets.all(14.0),
                       child: Align(
-                        alignment: messagesList[index].uId == uId
+                        alignment: messagesList[index].uId != uId
                             ? Alignment.topLeft
                             : Alignment.topRight,
                         child: Row(
-                          mainAxisAlignment: messagesList[index].uId == uId
+                          mainAxisAlignment: messagesList[index].uId != uId
                               ? MainAxisAlignment.start
                               : MainAxisAlignment.end,
                           children: [
