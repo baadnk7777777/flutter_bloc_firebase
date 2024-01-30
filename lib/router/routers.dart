@@ -12,6 +12,7 @@ import 'package:flutter_bloc_firebase_2/modules/add_request_page/views/add_reque
 import 'package:flutter_bloc_firebase_2/modules/chat_page/bloc/message_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/impl/message_repo_impl.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/views/chat_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/get_start_chat/views/get_start_chat_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/get_start_page/views/get_start.dart';
 import 'package:flutter_bloc_firebase_2/modules/landing_page/bloc/landing/bloc/landing_page_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/landing_page/views/landing_page.dart';
@@ -35,6 +36,9 @@ class YPRouter {
   }
 
   static Map<String, WidgetBuilder> routes = {
+    GetStart.route: (context) {
+      return const GetStartChat();
+    },
     ChatPage.route: (context) {
       AppLogger.log('Chat Bloc created', 'BLOC_PROVIDER', '📦');
       return BlocProvider(

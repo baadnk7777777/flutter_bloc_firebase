@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc_firebase_2/modules/get_start_chat/views/get_start_chat_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/landing_page/lading_page_import.dart';
 
-class LandingPage extends StatelessWidget {
+class LandingPage extends StatefulWidget {
   static const String route = 'landing';
-  LandingPage({super.key});
+  const LandingPage({super.key});
 
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  bool getStart = true;
   List<BottomNavigationBarItem> bottomNavItems =
       const <BottomNavigationBarItem>[
     BottomNavigationBarItem(
@@ -37,7 +44,6 @@ class LandingPage extends StatelessWidget {
       label: 'Profile',
     ),
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +54,15 @@ class LandingPage extends StatelessWidget {
               return const HomePage();
 
             case NavbarItem.chats:
-              return const ChatPage();
+              return getStart
+                  ? GetStartChat(
+                      onPressed: () {
+                        setState(() {
+                          getStart = false;
+                        });
+                      },
+                    )
+                  : const ChatPage();
 
             default:
               return Container();
