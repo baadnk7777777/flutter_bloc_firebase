@@ -1,6 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc_firebase_2/common/core/user_session/user_session.dart';
+import 'package:flutter_bloc_firebase_2/di/injector.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/bloc/chat_member/bloc/chat_member_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/models/room.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/models/roomArge.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_member_page/widgets/member_lists_views.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_member_page/widgets/members_search_field.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
 import 'package:flutter_bloc_firebase_2/modules/landing_page/lading_page_import.dart';
 import 'package:flutter_bloc_firebase_2/utils/hex_to_color.dart';
 
@@ -12,6 +20,21 @@ class ChatMemberPage extends StatefulWidget {
 }
 
 class _ChatMemberPageState extends State<ChatMemberPage> {
+  List<Room> rooms = <Room>[];
+  @override
+  void initState() {
+    super.initState();
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      await _bootstrip();
+    });
+  }
+
+  Future<void> _bootstrip() async {
+    Future.delayed(const Duration(seconds: 1));
+    BlocProvider.of<ChatMemberBloc>(context)
+        .add(FetchChatRoomsbyId(locator<UserSession>().uid));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,24 +69,18 @@ class _ChatMemberPageState extends State<ChatMemberPage> {
         child: Column(
           children: [
             const MembersSearchField(),
-            // InkWell(
-            //   onTap: () {
-            //     Navigator.pushNamed(
-            //       context,
-            //       ChatPage.route,
-            //     );
-            //   },
-            //   child: const Text('Chat'),
-            // ),
             Expanded(
-              child: ListView.builder(
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  return MemberListsViws(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        ChatPage.route,
+              child: BlocConsumer<ChatMemberBloc, ChatMemberState>(
+                listener: (context, state) {
+                  rooms = state.rooms;
+                },
+                builder: (context, state) {
+                  return ListView.builder(
+                    itemCount: rooms.length,
+                    itemBuilder: (context, index) {
+                      return MemberListsViws(
+                        room: rooms[index],
+                        lastMessage: rooms[index].message,
                       );
                     },
                   );

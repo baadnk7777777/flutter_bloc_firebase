@@ -38,6 +38,9 @@ class UserSessionImpl implements UserSession {
     _accessToken = await _secureStorage.read(_accessTokenKey);
     _refreshToken = await _secureStorage.read(_refreshTokenKey);
     _packageInfo = await PackageInfo.fromPlatform();
+    _displayName = await _secureStorage.read(_displayNameKey);
+    _email = await _secureStorage.read(_emailKey);
+    _uid = await _secureStorage.read(_uidKey);
   }
 
   @override

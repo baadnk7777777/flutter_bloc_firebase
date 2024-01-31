@@ -8,6 +8,9 @@ import 'package:flutter_bloc_firebase_2/modules/Login_page/views/login_page.dart
 import 'package:flutter_bloc_firebase_2/modules/add_request_page/bloc/add_request/bloc/add_request_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/add_request_page/repositories/impl/add_request_repo_impl/add_request_repo_impl.dart';
 import 'package:flutter_bloc_firebase_2/modules/add_request_page/views/add_request_page.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/bloc/chat_member/bloc/chat_member_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/models/roomArge.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/repositories/impl/chat_member_repo_impl.dart';
 // import 'package:flutter_bloc_firebase_2/modules/authentication/bloc/authentication_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/bloc/message_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/impl/message_repo_impl.dart';
@@ -41,11 +44,16 @@ class YPRouter {
     },
     ChatPage.route: (context) {
       AppLogger.log('Chat Bloc created', 'BLOC_PROVIDER', '📦');
-      return BlocProvider(
-        create: (context) => MessageBloc(
+      return BlocProvider<MessageBloc>(
+        create: (ctx) {
+          RoomArgs roomArgs = _args<RoomArgs>(context);
+          return MessageBloc(
+            roomArgs: roomArgs,
             messageRepositoyImpl: MessageRepositoyImpl(
-          firebaseNetwork: locator<FirebaseNetwork>(),
-        )),
+              firebaseNetwork: locator<FirebaseNetwork>(),
+            ),
+          );
+        },
         child: const ChatPage(),
       );
     },
@@ -109,6 +117,14 @@ class YPRouter {
 
       return MultiBlocProvider(providers: [
         BlocProvider(
+          create: (context) => ChatMemberBloc(
+            chatMemberRepositoryRepositoyImpl:
+                ChatMemberRepositoryRepositoyImpl(
+              firebaseNetwork: locator<FirebaseNetwork>(),
+            ),
+          ),
+        ),
+        BlocProvider(
           create: (context) => LoginFormBloc(
             userSession: locator<UserSession>(),
             authenticationRepository: AuthenticationRepositoryImpl(),
@@ -134,12 +150,6 @@ class YPRouter {
             DatabaseRepositoryImpl(),
           ),
         ),
-        BlocProvider(
-            create: (context) => MessageBloc(
-                  messageRepositoyImpl: MessageRepositoyImpl(
-                    firebaseNetwork: locator<FirebaseNetwork>(),
-                  ),
-                )),
       ], child: const LandingPage());
     },
     LoginPage.route: (context) {

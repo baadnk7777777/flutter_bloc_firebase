@@ -14,6 +14,9 @@ class Message {
     required this.chatId,
     required this.timestamp,
   });
+  static final Timestamp initialTimestamp =
+      Timestamp.fromMillisecondsSinceEpoch(0);
+
   factory Message.fromDocumentSnapshot(QueryDocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     return Message(

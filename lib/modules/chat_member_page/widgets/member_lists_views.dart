@@ -1,10 +1,21 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/models/room.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/models/roomArge.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/views/chat_page.dart';
 import 'package:flutter_bloc_firebase_2/utils/hex_to_color.dart';
 
 class MemberListsViws extends StatelessWidget {
-  final VoidCallback? onPressed;
-  const MemberListsViws({super.key, this.onPressed});
+  // final VoidCallback? onPressed;
+  final Room room;
+  final Message lastMessage;
+  const MemberListsViws({
+    super.key,
+    // this.onPressed,
+    required this.room,
+    required this.lastMessage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +24,7 @@ class MemberListsViws extends StatelessWidget {
         Navigator.pushNamed(
           context,
           ChatPage.route,
+          arguments: RoomArgs(chatRoomId: room.chatId),
         );
       },
       child: Column(
@@ -25,16 +37,16 @@ class MemberListsViws extends StatelessWidget {
               const CircleAvatar(
                 backgroundColor: Colors.red,
               ),
-              const Row(
+              Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('NAME'),
-                      Text('Last message.'),
+                      Text(room.chatId.toString()),
+                      Text(lastMessage.text),
                     ],
                   ),
                 ],
@@ -45,7 +57,8 @@ class MemberListsViws extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '21:30',
+                    DateFormat.Hm()
+                        .format(lastMessage.timestamp.toDate().toLocal()),
                     style: TextStyle(
                       fontFamily: 'poppins',
                       fontSize: 8,

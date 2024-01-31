@@ -81,7 +81,6 @@ class CustomKeyboard extends StatelessWidget {
                   context.read<MessageBloc>().add(SendMessageEvent(
                         message: mycontroller.text,
                         uId: uId,
-                        chatId: 1,
                       ));
                 }
 

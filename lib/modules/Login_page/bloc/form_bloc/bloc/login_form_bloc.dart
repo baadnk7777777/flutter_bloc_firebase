@@ -128,7 +128,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
         UserModel myUser = userLists.firstWhere(
           (user) => user.email == authUser!.user!.email,
         );
-        AppLogger.logD('${myUser.uid}', 'On Login');
+        // AppLogger.logD('${myUser.uid}', 'On Login');
         _saveToken(
           token!,
           token,
