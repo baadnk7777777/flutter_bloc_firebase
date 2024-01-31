@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/views/chat_member_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/get_start_chat/views/get_start_chat_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/landing_page/lading_page_import.dart';
 
@@ -62,7 +63,7 @@ class _LandingPageState extends State<LandingPage> {
                         });
                       },
                     )
-                  : const ChatPage();
+                  : const ChatMemberPage();
 
             default:
               return Container();

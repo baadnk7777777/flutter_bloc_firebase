@@ -140,7 +140,7 @@ class YPRouter {
                     firebaseNetwork: locator<FirebaseNetwork>(),
                   ),
                 )),
-      ], child: LandingPage());
+      ], child: const LandingPage());
     },
     LoginPage.route: (context) {
       AppLogger.log('LoginPage Bloc created', 'BLOC_PROVIDER', '📦');
