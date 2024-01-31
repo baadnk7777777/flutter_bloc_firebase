@@ -24,6 +24,7 @@ class _LoadingPageState extends State<LoadingPage> {
     Future.delayed(const Duration(seconds: 1));
     final userSession = locator<UserSession>();
     await userSession.loadSession();
+    print(userSession.uid);
     if (!mounted) return;
     if (userSession.valid) {
       Navigator.pushReplacementNamed(context, LandingPage.route);

@@ -5,6 +5,8 @@ import 'package:flutter_bloc_firebase_2/common/core/user_session/impl/user_sessi
 import 'package:flutter_bloc_firebase_2/common/core/user_session/user_session.dart';
 import 'package:flutter_bloc_firebase_2/modules/add_request_page/repositories/add_request_repo.dart';
 import 'package:flutter_bloc_firebase_2/modules/add_request_page/repositories/impl/add_request_repo_impl/add_request_repo_impl.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/repositories/chat_member_repo.dart';
+import 'package:flutter_bloc_firebase_2/modules/chat_member_page/repositories/impl/chat_member_repo_impl.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/impl/message_repo_impl.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/message_repo.dart';
 import 'package:flutter_bloc_firebase_2/modules/my_request_page/repositories/impl/services_request_repo_impl.dart';
@@ -37,7 +39,9 @@ void setup() {
   locator.registerSingleton<ServicesRequestRepository>(
       ServicesRequestRepositoryImpl(
           firebaseClient: locator<FirebaseNetwork>()));
-
+  locator.registerSingleton<ChatMemberRepository>(
+      ChatMemberRepositoryRepositoyImpl(
+          firebaseNetwork: locator<FirebaseNetwork>()));
   locator.allReady().then((_) {
     AppLogger.log('All Injector is already setup.', 'INJECTOR', '💉');
   });

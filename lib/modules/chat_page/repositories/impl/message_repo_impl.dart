@@ -11,9 +11,10 @@ class MessageRepositoyImpl implements MessageRepository {
       : _firebaseClient = firebaseNetwork;
 
   @override
-  Future<Either<String, List<Message>>> getAllMessages() async {
+  Future<Either<String, List<Message>>> getAllMessages(int chatId) async {
     try {
-      final List<Message> messages = await _firebaseClient.getAllMessages();
+      final List<Message> messages =
+          await _firebaseClient.getAllMessages(chatId);
       return Right(messages);
     } catch (e) {
       return Left(e.toString());

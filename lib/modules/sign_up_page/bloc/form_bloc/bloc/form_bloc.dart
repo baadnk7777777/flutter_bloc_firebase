@@ -80,8 +80,8 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
             _isNameValid(state.displayName),
         isLoading: true,
       ));
-      print("isfromValid${state.isFormValid}");
-      AppLogger.logD('BLOC EVENT SIGN UP', '_onFormSubmitted');
+      // print("isfromValid${state.isFormValid}");
+      // AppLogger.logD('BLOC EVENT SIGN UP', '_onFormSubmitted');
       if (state.isFormValid) {
         try {
           // // Sign up method
