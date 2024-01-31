@@ -2,17 +2,19 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc_firebase_2/data/repositories/services/firebase_client.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
 import 'package:flutter_bloc_firebase_2/modules/chat_page/repositories/message_repo.dart';
+import 'package:flutter_bloc_firebase_2/network/firebase_network.dart';
 
 class MessageRepositoyImpl implements MessageRepository {
-  final FirebaseClient _firebaseClient;
+  final FirebaseNetwork _firebaseClient;
 
-  MessageRepositoyImpl({required FirebaseClient firebaseClient})
-      : _firebaseClient = firebaseClient;
+  MessageRepositoyImpl({required FirebaseNetwork firebaseNetwork})
+      : _firebaseClient = firebaseNetwork;
 
   @override
-  Future<Either<String, List<Message>>> getAllMessages() async {
+  Future<Either<String, List<Message>>> getAllMessages(int chatId) async {
     try {
-      final List<Message> messages = await _firebaseClient.getAllMessages();
+      final List<Message> messages =
+          await _firebaseClient.getAllMessages(chatId);
       return Right(messages);
     } catch (e) {
       return Left(e.toString());

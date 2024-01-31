@@ -5,8 +5,6 @@ class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   addUserData(UserModel userData) async {
-    print("userData UID${userData.uid}");
-
     await _db.collection("Users").doc(userData.uid).set(userData.toMap());
   }
 

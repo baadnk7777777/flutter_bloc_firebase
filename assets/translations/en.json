@@ -1,0 +1,17 @@
+{
+    "common": {
+		"loading": "Loading...",
+		"ok": "OK",
+		"cancel": "Cancel",
+		"privacy_policy": "Privacy Policy and Terms",
+		"logout": "Log out",
+		"inquiry": "Request  additional information",
+		"contact_us": "Contact us",
+		"help": "Help",
+		"language": "Language",
+		"submit": "Submit",
+		"send": "Send",
+		"continue": "Continue",
+		"update": "Update"
+	}
+}
