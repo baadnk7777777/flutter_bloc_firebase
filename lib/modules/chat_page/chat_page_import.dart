@@ -1,7 +1,7 @@
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
 export 'package:flutter_bloc_firebase_2/common/style/app_style.dart';
-export 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
+export 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/login_bloc.dart';
 export 'package:flutter_bloc_firebase_2/modules/chat_page/bloc/message_bloc.dart';
 export 'package:flutter_bloc_firebase_2/modules/chat_page/models/message.dart';
 export 'package:flutter_bloc_firebase_2/modules/chat_page/widgets/custom_keyboard.dart';

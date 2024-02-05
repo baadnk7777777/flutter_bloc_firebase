@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/constants/app_constants.dart';
 import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/login_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/splash_page/loading_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/splash_page/splash_page.dart';
 
@@ -13,14 +13,14 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginFormBloc, LoginFormState>(
+    return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         return state.status == StateStatus.loading
             ? const LoadingWidget()
             : ElevatedButton(
                 onPressed: () {
-                  context.read<LoginFormBloc>().add(
-                        const FormSubmitted(),
+                  context.read<LoginBloc>().add(
+                        const LoginEventFormSubmitted(),
                       );
                 },
                 style: ElevatedButton.styleFrom(

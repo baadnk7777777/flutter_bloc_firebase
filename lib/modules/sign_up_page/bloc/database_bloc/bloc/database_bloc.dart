@@ -14,9 +14,7 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   }
 
   _fetchUserData(DatabaseFetched event, Emitter<DatabaseState> emit) async {
-    List<UserModel> listOfUserData =
-        await _databaseRepository.retrieveUserData();
-    emit(DatabaseSuccess(
-        listOfuserData: listOfUserData, displayName: event.displayName));
+    List<UserModel> listOfUserData =  await _databaseRepository.retrieveUserData();
+    emit(DatabaseSuccess( listOfuserData: listOfUserData, displayName: event.displayName));
   }
 }

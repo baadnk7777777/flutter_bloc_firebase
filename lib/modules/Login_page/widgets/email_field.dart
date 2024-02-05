@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/style/app_color.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/login_bloc.dart';
 
 class EmailField extends StatelessWidget {
   const EmailField({super.key});
@@ -12,14 +12,14 @@ class EmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocBuilder<LoginFormBloc, LoginFormState>(
+    return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         return SizedBox(
           // รู้ขนาดที่แน่นอน ควรใช้ Sizebox
           width: size.width * 0.8,
           child: TextField(
             onChanged: (value) {
-              context.read<LoginFormBloc>().add(EmailChanged(email: value));
+              context.read<LoginBloc>().add(LoginEventEmailChanged(email: value));
             },
             keyboardType: TextInputType.emailAddress,
             style: const TextStyle(

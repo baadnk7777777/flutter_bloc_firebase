@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.login_rounded),
             onPressed: () async {
-              context.read<LoginFormBloc>().add(const Logout());
+              context.read<LoginBloc>().add(const LoginEventLogout());
               await locator<UserSession>().clearSession();
               AppLogger.log('SignOut', 'SignOut', '📤');
               Navigator.pushNamedAndRemoveUntil(

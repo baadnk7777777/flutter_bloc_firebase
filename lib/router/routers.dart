@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_firebase_2/common/core/user_session/user_session.dart';
 import 'package:flutter_bloc_firebase_2/di/injector.dart';
-import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/form_bloc/bloc/login_form_bloc.dart';
+import 'package:flutter_bloc_firebase_2/modules/Login_page/bloc/login_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/Login_page/views/login_page.dart';
 import 'package:flutter_bloc_firebase_2/modules/add_request_page/bloc/add_request/bloc/add_request_bloc.dart';
 import 'package:flutter_bloc_firebase_2/modules/add_request_page/repositories/impl/add_request_repo_impl/add_request_repo_impl.dart';
@@ -99,7 +99,7 @@ class YPRouter {
       return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => LoginFormBloc(
+            create: (context) => LoginBloc(
               userSession: locator<UserSession>(),
               authenticationRepository: AuthenticationRepositoryImpl(),
               databaseRepository: DatabaseRepositoryImpl(),
@@ -125,7 +125,7 @@ class YPRouter {
           ),
         ),
         BlocProvider(
-          create: (context) => LoginFormBloc(
+          create: (context) => LoginBloc(
             userSession: locator<UserSession>(),
             authenticationRepository: AuthenticationRepositoryImpl(),
             databaseRepository: DatabaseRepositoryImpl(),
@@ -158,7 +158,7 @@ class YPRouter {
       return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => LoginFormBloc(
+            create: (context) => LoginBloc(
               userSession: locator<UserSession>(),
               authenticationRepository: AuthenticationRepositoryImpl(),
               databaseRepository: DatabaseRepositoryImpl(),

@@ -21,7 +21,7 @@ class GetStart extends StatelessWidget {
               });
             } else if (snapshot.hasData) {
               // ยิง get data from preferences.
-              BlocProvider.of<LoginFormBloc>(context).add(const GetData());
+              BlocProvider.of<LoginBloc>(context).add(const LoginEventGetData());
               // Navigator.pushReplacementNamed(context, LandingPage.route);
               // return LandingPage();
             } else if (snapshot.hasError) {

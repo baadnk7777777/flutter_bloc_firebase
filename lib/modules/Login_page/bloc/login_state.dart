@@ -1,7 +1,7 @@
-part of 'login_form_bloc.dart';
+part of 'login_bloc.dart';
 
-class LoginFormState extends Equatable {
-  const LoginFormState({
+class LoginState extends Equatable {
+  const LoginState({
     // UserModel? userModel,
     this.email = '',
     this.password = '',
@@ -18,7 +18,7 @@ class LoginFormState extends Equatable {
   final bool isLoginVerified;
   final String uid;
 
-  LoginFormState copyWith({
+  LoginState copyWith({
     // UserModel? userModel,
     String? email,
     String? password,
@@ -27,7 +27,7 @@ class LoginFormState extends Equatable {
     bool? isLoginVerified,
     String? uid,
   }) =>
-      LoginFormState(
+      LoginState(
         // userModel: userModel ?? user,
         email: email ?? this.email,
         password: password ?? this.password,
